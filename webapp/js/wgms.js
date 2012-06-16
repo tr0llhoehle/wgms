@@ -237,13 +237,24 @@ $(window).load(function(){
 
 }); 
 
+//login "validation"
+$(function() {
+    // Page show events
+      $(document).bind("pagechange", function(event, obj) {
+        //alert("lol");
+    });
+});
+
 //login form
 $(function() {  
   $(".button").click(function() {  
     // validate and process form here  
     var pname = $("input#name").val();  
     var pw = $("input#password").val();  
-    $.post("ShoppingListServlet", { name: pname, password:pw } );
+    $.post("ShoppingListServlet", { name: pname, password:pw },
+    function(data) {
+     	alert("Data Loaded: " + data);
+   	});
     window.location = "#edit";
   });  
 });  
