@@ -5,6 +5,7 @@
 //  selected - boolean value whether the entry is selected or not.
 var list = {
   listEntries: [],
+  //TODO: this may cause overflows when the app runs a long time, I suppose...
   nextId: 0,
 
   addEntry: function(name) {
@@ -14,18 +15,17 @@ var list = {
     this.nextId += 1;
     entry.selected = false;
     return this.listEntries.push(entry);
-  }
+  },
 
-  removeEntry: function(id) {
+  removeEntry: function(foo) {
     for(var i = 0; i < listEntries.length; ++i) {
-      if(id == entry.id) {
+      if(foo == entry.id) {
         listEntries.splice(i, 1);
         break;
       }
     }
   }
 }
-
 function changeIcon(e) { 
 	var change = "#"+e.id;
 	var changeUI = change+" .ui-icon";
