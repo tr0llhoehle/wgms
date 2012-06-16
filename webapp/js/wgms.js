@@ -73,22 +73,28 @@ var list = {
   //uUncheckedEntries to the uCheckedEntries-Array and start the sync
   //with the server.
   checkEntry: function(id) {
-    var entry = -1;
+    var entry;
+    var done = false;
     for(var i = 0; i < this.uncheckedEntries.length; ++i) {
       if(this.uncheckedEntries[i].id == id) {
-        entry = this.uncheckedEntries[i];
+        entry = jQuery.extend(true, {}, this.uncheckedEntries[i]);
+        alert(entry);
+        this.uncheckedEntries.splice(i, 1);
+        done = true;
         break;
       }
     }
-    if(entry == -1) {
+    if(!done) {
       for(var i = 0; i < this.uUncheckedEntries.length; ++i) {
         if(this.uUncheckedEntries[i].id == id) {
-          entry = this.uUncheckedEntries[i];
+          entry = jQuery.extend(true, {}, this.uUncheckedEntries[i]);
+          this.uUncheckedEntries.splice(i, 1);
+          done = true;
+          break;
         }
-        break;
       }
     }
-    if(entry != -1) {
+    if(done) {
       this.uCheckedEntries.push(entry);
       this.transmitCheckedEntries();
     }
@@ -96,22 +102,27 @@ var list = {
 
   //See checkEntry, just for unchecking! ;-)
   uncheckEntry: function(id) {
-    var entry = -1;
+    var entry;
+    var done;
     for(var i = 0; i < this.checkedEntries.length; ++i) {
       if(this.checkedEntries[i].id == id) {
-        entry = this.checkedEntries[i];
+        entry = jQuery.extend(true, {}, this.checkedEntries[i]);
+        this.checkedEntries.splice(i, 1);
+        done = true;
         break;
       }
     }
-    if(entry == -1) {
+    if(!done){
       for(var i = 0; i < this.uCheckedEntries.length; ++i) {
         if(this.uCheckedEntries[i].id == id) {
-          entry = this.uCheckedEntries[i];
+          entry = jQuery.extend(true, {}, this.uCheckedEntries[i]);
+          this.uUncheckedEntries.splice(i, 1);
+          done = true;
+          break;
         }
-        break;
       }
     }
-    if(entry != -1) {
+    if(done) {
       this.uUncheckedEntries.push(entry);
       this.transmitUncheckedEntries();
     }
@@ -121,7 +132,7 @@ var list = {
     //TODO: le magic
   },
   
-  transmitDeletedEntries: function(entries) {
+  transmitDeletedEntries: function() {
     var successful;
     var tempDeletedEntries = this.deletedEntries;
     //TODO: Do the actual transmitting <-- ...
@@ -164,7 +175,7 @@ var list = {
     if(successful) {
       clearTimeout(this.checkEntriesTimer);
       this.checkEntriesTimer = 0;
-      this.checkedEntries.concat(tempCheckedEntries);
+      this.checkedEntries = this.checkedEntries.concat(tempCheckedEntries);
       this.uCheckedEntries.splice(0, tempCheckedEntries.length);
     } else {
       this.checkEntriesTimer = setTimeout(function(){list.transmitCheckedEntries()}, retryInterval);
@@ -180,7 +191,7 @@ var list = {
     if(successful) {
       clearTimeout(this.uncheckEntriesTimer);
       this.uncheckEntriesTimer = 0;
-      this.uncheckedEntries.concat(tempUncheckedEntries);
+      this.uncheckedEntries = this.uncheckedEntries.concat(tempUncheckedEntries);
       this.uUncheckedEntries.splice(0, tempUncheckedEntries.length);
     } else {
       this.uncheckEntriesTimer = setTimeout(function(){list.transmitUncheckedEntries()}, retryInterval);
