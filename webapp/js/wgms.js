@@ -366,27 +366,31 @@ $(function() {
 });  
 
 //JSON test
-$(function() {  
-  $(".jtest").click(function() {  
-  	var test = new Array();
+$(function() {
+  $(".jtest").click(function() {
+        var test = new Array();
     test[0] = 123;
     test[1] = 456;
     test[2] = 789;
-    
+                
     var jdata = $.toJSON(test);
     //alert(data);
-       
+                                
     /*$.post("../TestServlet", { 'data': data },
     function(retdata) {
-     	alert("Data Loaded: " + retdata);
-   	});*/
-   	$.ajax({
-  		url: "../TestServlet",
-  		type: "POST",
-        data: {'data': jdata},
+        alert("Data Loaded: " + retdata);
+        });*/
+/*      $.ajax({
+                url: "test.php",
+                type: "POST",
+        data: {'data': jdata},   
         processData: false,
         contentType: 'application/json'
-	}).done(function ( retdata ) {
-         	alert("Data Loaded: " + retdata);});
-	});
-});  
+        }).done(function ( retdata ) { 
+                alert("Data Loaded: " + retdata);});
+        });*/
+        var dataString = $.toJSON(jdata);
+        $.post('../TestServlet', {data: dataString}, function(res){
+        alert(res);});
+  });
+});

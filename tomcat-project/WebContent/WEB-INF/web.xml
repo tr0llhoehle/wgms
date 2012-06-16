@@ -17,6 +17,70 @@
     <servlet-name>ShoppingListServlet</servlet-name>
     <url-pattern>/ShoppingListServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>AddEntries</servlet-name>
+    <servlet-class>AddEntries</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddEntries</servlet-name>
+    <url-pattern>/AddEntries</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>CheckEntries</servlet-name>
+    <servlet-class>CheckEntries</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckEntries</servlet-name>
+    <url-pattern>/CheckEntries</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DeleteEntries</servlet-name>
+    <servlet-class>DeleteEntries</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteEntries</servlet-name>
+    <url-pattern>/DeleteEntries</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DiffPoll</servlet-name>
+    <servlet-class>DiffPoll</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DiffPoll</servlet-name>
+    <url-pattern>/DiffPoll</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DoneShopping</servlet-name>
+    <servlet-class>DoneShopping</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoneShopping</servlet-name>
+    <url-pattern>/DoneShopping</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>InitialRequest</servlet-name>
+    <servlet-class>InitialRequest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InitialRequest</servlet-name>
+    <url-pattern>/InitialRequest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>Login</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>UncheckEntries</servlet-name>
+    <servlet-class>UncheckEntries</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UncheckEntries</servlet-name>
+    <url-pattern>/UncheckEntries</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

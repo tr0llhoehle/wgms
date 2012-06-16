@@ -37,7 +37,7 @@ public class DbmsConnector {
 		return instance;
 	}
 
-	private void openConnection() {
+	private synchronized void openConnection() {
 		try {
 			Class.forName(dbClassName);
 		} catch (ClassNotFoundException e1) {
@@ -57,7 +57,7 @@ public class DbmsConnector {
 		}
 	}
 
-	public void closeConnection() {
+	public synchronized void closeConnection() {
 		if (c == null) {
 
 			return;
@@ -72,7 +72,32 @@ public class DbmsConnector {
 		c = null;
 	}
 
-	public String getPassword(String username) {
+	public synchronized String getEmail(String username) {
+		if (username == null || username.trim().equals("") || !connected) {
+			return null;
+		}
+
+		try {
+			PreparedStatement getEmail = c
+					.prepareStatement("SELECT email FROM users WHERE username = ?");
+			getEmail.setString(1, username.trim());
+			ResultSet result = getEmail.executeQuery();
+			String email = null;
+			while (result.next()) {
+				email = result.getString("password");
+			}
+
+			getEmail.close();
+			return email;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	public synchronized String getPassword(String username) {
 		if (username == null || username.trim().equals("") || !connected) {
 			return null;
 		}
@@ -97,7 +122,7 @@ public class DbmsConnector {
 		return null;
 	}
 
-	public void checkItem(String itemId) {
+	public synchronized void checkItem(String itemId) {
 		if (itemId == null || itemId.trim().equals("") || !connected) {
 			return;
 		}
@@ -117,7 +142,7 @@ public class DbmsConnector {
 
 	}
 
-	public void uncheckItem(String itemId) {
+	public synchronized void uncheckItem(String itemId) {
 		if (itemId == null || itemId.trim().equals("") || !connected) {
 			return;
 		}
@@ -137,7 +162,7 @@ public class DbmsConnector {
 
 	}
 
-	public void insertItem(String description, String shoppingListId,
+	public synchronized void insertItem(String description, String shoppingListId,
 			String userName) {
 		if (shoppingListId == null || shoppingListId.trim().equals("")
 				|| description == null || description.trim().equals("")
@@ -160,7 +185,7 @@ public class DbmsConnector {
 
 	}
 
-	public ArrayList<TempShoppingList> getUserLists(String userName) {
+	public synchronized ArrayList<TempShoppingList> getUserLists(String userName) {
 
 		if (userName == null || userName.trim().equals("") || !connected) {
 			return null;
@@ -191,7 +216,7 @@ public class DbmsConnector {
 		return null;
 	}
 
-	public ArrayList<TempShoppingListItem> getListsItems(String listId) {
+	public synchronized ArrayList<TempShoppingListItem> getListsItems(String listId) {
 
 		if (listId == null || listId.trim().equals("") || !connected) {
 			return null;
