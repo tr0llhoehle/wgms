@@ -87,11 +87,11 @@ var list = {
   }
 }
 
-function populateListView(listview) {
+function populateListView(listview,icon) {
 	for (var i = 0; i < list.entries.length; i++) {
 		var listItem = document.createElement('li');
         listItem.setAttribute('id','li'+i);
-        listItem.setAttribute('data-icon','troll-blank');
+        listItem.setAttribute('data-icon',icon);
         listItem.setAttribute('data-corners',"false");
         listItem.setAttribute('data-shadow',"false");
         listItem.setAttribute('data-iconshadow',"true");
@@ -117,7 +117,7 @@ $(window).load(function(){
     editlistview.setAttribute('id','editlistview');
     editlistview.setAttribute('data-role','listview');
     editparent.appendChild(editlistview);
-    populateListView(editlistview);
+    populateListView(editlistview,'delete');
     
     //shopping
     var parent = document.getElementById('shoppingcontent');
@@ -125,11 +125,14 @@ $(window).load(function(){
     listview.setAttribute('id','listview');
     listview.setAttribute('data-role','listview');
     parent.appendChild(listview);
-    populateListView(listview);
+    populateListView(listview,'troll-blank');
     
     $('listview').listview();
     $('listview').listview('refresh');
 	$('listview').trigger("create");
+	$('editlistview').listview();
+    $('editlistview').listview('refresh');
+	$('editlistview').trigger("create");
 	$("#shopping").page();
 	$("#edit").page();
 	$("#shopping").trigger("create");
