@@ -95,7 +95,7 @@ public class DbmsConnector {
 			PreparedStatement checkItem = c
 					.prepareStatement("UPDATE items SET checked 1 WHERE item_id EQUALS ?");
 			checkItem.setString(1, itemId.trim());
-			checkItem.executeQuery();
+			checkItem.executeUpdate();
 			checkItem.close();
 
 		} catch (SQLException e) {
@@ -115,7 +115,7 @@ public class DbmsConnector {
 			PreparedStatement checkItem = c
 					.prepareStatement("UPDATE items SET checked 0 WHERE item_id EQUALS ?");
 			checkItem.setString(1, itemId.trim());
-			checkItem.executeQuery();
+			checkItem.executeUpdate();
 			checkItem.close();
 
 		} catch (SQLException e) {
@@ -123,6 +123,11 @@ public class DbmsConnector {
 			e.printStackTrace();
 
 		}
+
+	}
+
+	public void insertItem(String shoppingListId, String description) {
+		PreparedStatement checkItem = c.prepareStatement("INSERT INTO items");
 
 	}
 
