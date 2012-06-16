@@ -5,18 +5,9 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
-    <link rel="stylesheet" href="uitest.css" />
-    <title>WGMS_Einkaufsliste</title>
-    <script type="text/javascript">
-    function changeIcon(e) { 
-    	var change = e.id;
-    	change = "#"+change;
-    	var changeUI = change+" .ui-icon";
-   		$(change).data('icon', 'check'); 
-   		$(changeUI).addClass("ui-icon-check").removeClass("ui-icon-myapp-settings"); 
-	}
-    </script>
-    
+    <link rel="stylesheet" href="css/wgms.css" />
+    <script src="js/wgms.js"></script>
+    <title>WGMS_Einkaufsliste</title>    
   </head>
   <body>
     <div data-role="page">
@@ -25,7 +16,7 @@
       </div>
       <div data-role="content">
         <ul data-role="listview">
-          <li data-icon="myapp-settings" onclick="changeIcon(this)" id="li0"><a>Test</a></li>
+          <li data-icon="troll-blank" onclick="changeIcon(this)" id="li0"><a>Test</a></li>
         </ul>
       </div>
       <div data-role="footer">
