@@ -215,6 +215,11 @@ public class DbmsConnector {
 		return null;
 	}
 
+	public synchronized ArrayList<TempShoppingListItem> getListsItems(int listId) {
+		String id = String.valueOf(listId);
+		return this.getListsItems(id);
+	}
+	
 	public synchronized ArrayList<TempShoppingListItem> getListsItems(String listId) {
 
 		if (listId == null || listId.trim().equals("") || !connected) {
