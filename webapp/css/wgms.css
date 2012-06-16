@@ -1,6 +1,7 @@
 .ui-icon-troll-blank {
 	background-color:#999999 !important;
 	background-size: 18px 18px !important;
+	background-image: url(images/blank.png);
 }
 
 .selected {
