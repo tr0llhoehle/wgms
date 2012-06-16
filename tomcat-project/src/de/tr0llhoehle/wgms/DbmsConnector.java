@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import de.tr0llhoehle.wgms.structs.TempShoppingList;
+import de.tr0llhoehle.wgms.structs.TempShoppingListItem;
 
 public class DbmsConnector {
 	// The JDBC Connector Class.
@@ -183,6 +184,37 @@ public class DbmsConnector {
 						.getInt("shopping_list_id"), result.getString("title")));
 			}
 			return lists;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public ArrayList<TempShoppingListItem> getListsItems(String listId) {
+
+		if (listId == null || listId.trim().equals("") || !connected) {
+			return null;
+		}
+
+		ArrayList<TempShoppingListItem> items = new ArrayList<TempShoppingListItem>();
+
+		try {
+			PreparedStatement getList = c
+					.prepareStatement("SELECT item_id, description FROM items WHERE shopping_list_id = ?");
+			getList.setString(1, listId.trim());
+			getList.executeQuery();
+			ResultSet result = getList.executeQuery();
+			// ResultSetMetaData meta = result.getMetaData();
+			// if (meta == null) {
+			// return null;
+			// }
+			while (result.next()) {
+
+				items.add(new TempShoppingListItem(result.getInt("item_id"),
+						result.getString("description")));
+			}
+			return items;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
