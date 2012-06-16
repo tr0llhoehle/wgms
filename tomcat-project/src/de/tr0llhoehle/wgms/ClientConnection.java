@@ -11,10 +11,23 @@ public class ClientConnection implements Serializable, HttpSessionBindingListene
 	
 	protected ShoppingList shoppingList;
 	protected Queue updateQueue;
+	protected boolean online;
 	
-	public ClientConnection(ShoppingList shoppingList) {
-		this.shoppingList = shoppingList;
+	public ClientConnection() {
 		this.updateQueue = new LinkedList<String>();
+		this.online = false;
+	}
+	
+	public void setOnline() {
+		this.online = true;
+	}
+	
+	public boolean online() {
+		return this.online;
+	}
+	
+	public void selectList(String listID) {
+		
 	}
 	
 	public String flushQueue() {
