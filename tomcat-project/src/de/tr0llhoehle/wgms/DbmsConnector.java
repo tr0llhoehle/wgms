@@ -45,6 +45,7 @@ public class DbmsConnector {
 
 		try {
 			c = DriverManager.getConnection(CONNECTION, p);
+			connected = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			connected = false;
@@ -53,6 +54,7 @@ public class DbmsConnector {
 
 	public void closeConnection() {
 		if (c == null) {
+			
 			return;
 		}
 		try {
@@ -61,11 +63,12 @@ public class DbmsConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		connected = false;
 		c = null;
 	}
 
 	public String getPassword(String username) {
-		if (username == null || username.trim().equals("") && !connected) {
+		if (username == null || username.trim().equals("") || !connected) {
 			return null;
 		}
 
@@ -138,7 +141,7 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement checkItem = c
-					.prepareStatement("INSERT INTO items Values(null");
+					.prepareStatement("INSERT INTO items Values(null,?,?,null,'0', (SELECT userid FROM users WHERE username = ?),)");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
