@@ -83,7 +83,7 @@ public class DbmsConnector {
 			ResultSet result = getEmail.executeQuery();
 			String email = null;
 			while (result.next()) {
-				email = result.getString("password");
+				email = result.getString("email");
 			}
 
 			getEmail.close();
