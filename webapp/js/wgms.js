@@ -236,3 +236,14 @@ $(window).load(function(){
     }); 
 
 }); 
+
+//login form
+$(function() {  
+  $(".button").click(function() {  
+    // validate and process form here  
+    var pname = $("input#name").val();  
+    var pw = $("input#password").val();  
+    $.post("ShoppingListServlet", { name: pname, password:pw } );
+    window.location = "#edit";
+  });  
+});  
