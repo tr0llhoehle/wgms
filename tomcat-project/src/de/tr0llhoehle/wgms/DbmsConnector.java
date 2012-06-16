@@ -72,6 +72,31 @@ public class DbmsConnector {
 		c = null;
 	}
 
+	public String getEmail(String username) {
+		if (username == null || username.trim().equals("") || !connected) {
+			return null;
+		}
+
+		try {
+			PreparedStatement getEmail = c
+					.prepareStatement("SELECT email FROM users WHERE username = ?");
+			getEmail.setString(1, username.trim());
+			ResultSet result = getEmail.executeQuery();
+			String email = null;
+			while (result.next()) {
+				email = result.getString("password");
+			}
+
+			getEmail.close();
+			return email;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
 	public String getPassword(String username) {
 		if (username == null || username.trim().equals("") || !connected) {
 			return null;
