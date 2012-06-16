@@ -6,7 +6,59 @@
     <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
     <link rel="stylesheet" href="css/wgms.css" />
-    <script src="js/wgms.js"></script>
+	<script src="js/wgms.js"></script>
+    <script type="text/javascript">
+$(window).load(function(){
+
+  $('#listview').on('click', 'li', function() {
+        //alert("Works"); // id of clicked li by directly accessing DOMElement property
+        $(this).parent().addClass("ui-icon-check"); 
+        $(this).parent().removeClass("ui-icon-troll-blank");
+        //$(this).remove (); 
+
+		var id = $(this).attr('id');
+        var change = '#'+id;
+		var changeUI = change+" .ui-icon";
+		
+		var text = $(this).text();
+            
+        var x = "un";
+    	if($(changeUI).hasClass("selected")) {
+    		$(change).data('icon', 'troll-blank'); 
+   			$(changeUI).addClass("ui-icon-troll-blank").removeClass("ui-icon-check"); 
+   			$(changeUI).removeClass("selected");
+   			var output = '<li data-icon="troll-blank" id="'+id+'"><a>'+text+'</a></li>';
+   			x = "se";
+    	} else {
+   			$(change).data('icon', 'check'); 
+   			$(changeUI).addClass("ui-icon-check").removeClass("ui-icon-troll-blank"); 
+   			$(changeUI).addClass("selected");
+   			var output = '<li data-icon="check" id="'+id+'"><a>'+text+'</a></li>';
+   			x = "un";
+    	}
+
+    	$(this).slideUp(700).delay(100).queue(function() {
+			$(this).remove();
+			var change = '#'+id;
+			var changeUI = change+" .ui-icon";
+			if(x == "se") {
+				$('#listview').prepend(output).listview('refresh');
+				//alert("selected");
+    			$(change).data('icon', 'troll-blank'); 
+   				$(changeUI).addClass("ui-icon-troll-blank").removeClass("ui-icon-check"); 
+   				$(changeUI).removeClass("selected");
+    		} else {
+    			$('#listview').append(output).listview('refresh');
+   				$(change).data('icon', 'check'); 
+   				$(changeUI).addClass("ui-icon-check").removeClass("ui-icon-troll-blank"); 
+   				$(changeUI).addClass("selected");
+    		}
+		});
+    }); 
+
+}); 
+
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WGMS_Einkaufsliste</title>    
   </head>
@@ -16,8 +68,11 @@
         <h1>Einkaufsliste</h1>
       </div>
       <div data-role="content">
-        <ul data-role="listview">
-          <li data-icon="troll-blank" ontouch="alert('lol')" onclick="changeIcon(this)" id="li0"><a>Test</a></li>
+        <ul data-role="listview" id="listview">
+          <li data-icon="troll-blank" id="li0"><a>Test</a></li>
+          <li data-icon="troll-blank" id="li1"><a>Test2</a></li>
+          <li data-icon="troll-blank" id="li2"><a>Test3</a></li>
+          <li data-icon="troll-blank" id="li3"><a>Test4</a></li>
         </ul>
       </div>
       <div data-role="footer">
