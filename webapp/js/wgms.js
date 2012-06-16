@@ -131,6 +131,10 @@ var list = {
     //TODO: le magic
   },
   
+  initialRequest: function() {
+    //TODO le small magic
+  },
+
   transmitDeletedEntries: function() {
     var successful;
     var tempDeletedEntries = this.deletedEntries;
@@ -199,9 +203,10 @@ var list = {
 }
 
 function populateListView(listview,icon) {
-    for (var i = 0; i < list.uncheckedEntries.length; i++) {
+	/* TODO: doesn't work anymore since the arrays .. are DIFFERENT! :-O
+    for (var i = 0; i < list.entries.length; i++) {
 		var listItem = document.createElement('li');
-        listItem.setAttribute('id','li'+list.uncheckedEntries[i].id);
+        listItem.setAttribute('id','li'+i);
         listItem.setAttribute('data-icon',icon);
         listItem.setAttribute('data-corners',"false");
         listItem.setAttribute('data-shadow',"false");
@@ -209,17 +214,16 @@ function populateListView(listview,icon) {
         listItem.setAttribute('data-wrapperels',"div");
         listItem.setAttribute('data-iconpos',"right");
         listItem.setAttribute('data-theme',"c");
-        listItem.innerHTML = "<a>"+list.uncheckedEntries[i].name+"</a>";
+        listItem.innerHTML = "<a>"+list.entries[i].name+"</a>";
         
         listview.appendChild(listItem);
         //$('listview').listview();
         //$('listview').listview('refresh');
-	}
+	}*/
 	//$("#shopping").trigger("create");
 }
 
 $(window).load(function(){
-  list.addEntry("Fuck yeah, PONYTIME!!!");
 	list.addEntry("HATERS");
 	list.addEntry("GONNA");
 	list.addEntry("HATE");
@@ -326,12 +330,20 @@ $(function() {
     test[1] = 456;
     test[2] = 789;
     
-    var data = $.toJSON(test);
+    var jdata = $.toJSON(test);
+    //alert(data);
        
-    $.post("../TestServlet", { 'data': data },
+    /*$.post("../TestServlet", { 'data': data },
     function(retdata) {
      	alert("Data Loaded: " + retdata);
-   	});
-
-  });  
+   	});*/
+   	$.ajax({
+  		url: "../TestServlet",
+  		type: "POST",
+        data: {'data': jdata},
+        processData: false,
+        contentType: 'application/json'
+	}).done(function ( retdata ) {
+         	alert("Data Loaded: " + retdata);});
+	});
 });  
