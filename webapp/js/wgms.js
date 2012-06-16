@@ -1,3 +1,6 @@
+var editListView;
+var shoppingListview;
+
 var diffPollInterval = 5000;
 var retryInterval = 5000;
 
@@ -139,7 +142,7 @@ var list = {
     var successful;
     var tempDeletedEntries = this.deletedEntries;
     //TODO: Do the actual transmitting <-- ...
-    successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
+    //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
     if(successful) {
       clearTimeout(this.deletedEntriesTimer);
@@ -151,10 +154,10 @@ var list = {
   },
   
   transmitAddedEntries: function() {
-    var successful;
+    var successful = true; //TODO: shouldn't be initialised with true. Just for testing...
     var tempAddedEntries = this.addedEntries;
     //TODO: Do the actual transmitting <-- ...
-    successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
+    //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
     if(successful) {
       clearTimeout(this.addEntriesTimer);
@@ -173,7 +176,7 @@ var list = {
     var successful;
     var tempCheckedEntries = this.uCheckedEntries;
     //TODO: Do the actual transmitting <-- ...
-    successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
+    //successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
     if(successful) {
       clearTimeout(this.checkEntriesTimer);
@@ -189,7 +192,7 @@ var list = {
     var successful;
     var tempUncheckedEntries = this.uUncheckedEntries;
     //TODO: Do the actual transmitting <-- ...
-    successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
+    //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
     if(successful) {
       clearTimeout(this.uncheckEntriesTimer);
@@ -201,7 +204,14 @@ var list = {
     }
   },
 }
-
+/*
+  uncheckedEntries: [],
+  uUncheckedEntries: [],
+  checkedEntries: [],
+  uCheckedEntries: [],
+  addedEntries: [],
+  deletedEntries: [],
+*/
 function populateListView(listview,icon) {
 	/* TODO: doesn't work anymore since the arrays .. are DIFFERENT! :-O
     for (var i = 0; i < list.entries.length; i++) {
@@ -223,39 +233,72 @@ function populateListView(listview,icon) {
 	//$("#shopping").trigger("create");
 }
 
+function initialiseListView() {
+  for (i in list.uncheckedEntries) {
+    var editListItem = document.createElement('li');
+    editListItem.setAttribute('id','li'+list.uncheckedEntries[i].id);
+    editListItem.setAttribute('data-icon','delete');
+    editListItem.setAttribute('data-corners',"false");
+    editListItem.setAttribute('data-shadow',"false");
+    editListItem.setAttribute('data-iconshadow',"true");
+    editListItem.setAttribute('data-wrapperels',"div");
+    editListItem.setAttribute('data-iconpos',"right");
+    editListItem.setAttribute('data-theme',"c");
+    editListItem.innerHTML = "<a>"+list.uncheckedEntries[i].name+"</a>";
+
+    var shoppingListItem = document.createElement('li');
+    shoppingListItem.setAttribute('id','li'+list.uncheckedEntries[i].id);
+    shoppingListItem.setAttribute('data-icon','troll-blank');
+    shoppingListItem.setAttribute('data-corners',"false");
+    shoppingListItem.setAttribute('data-shadow',"false");
+    shoppingListItem.setAttribute('data-iconshadow',"true");
+    shoppingListItem.setAttribute('data-wrapperels',"div");
+    shoppingListItem.setAttribute('data-iconpos',"right");
+    shoppingListItem.setAttribute('data-theme',"c");
+    shoppingListItem.innerHTML = "<a>"+list.uncheckedEntries[i].name+"</a>";
+            
+    editListView.appendChild(editListItem);
+    shoppingListView.appendChild(shoppingListItem);
+  }
+}
+
 $(window).load(function(){
-	list.addEntry("HATERS");
-	list.addEntry("GONNA");
-	list.addEntry("HATE");
+  list.addEntry("le cake");
+  list.addEntry("it is a lie");
+  list.addEntry("FLAUSCHFLAUSCH");
+  list.addEntry("Flawwwwwwssssscchhzzz");
+  list.initialRequest();
 	//edit
 	var editparent = document.getElementById('editcontent');
-    var editlistview = document.createElement('ul');
-    editlistview.setAttribute('id','editlistview');
-    editlistview.setAttribute('data-role','listview');
-    editparent.appendChild(editlistview);
-    populateListView(editlistview,'delete');
+    editListView = document.createElement('ul');
+    editListView.setAttribute('id','editListView');
+    editListView.setAttribute('data-role','listview');
+    editparent.appendChild(editListView);
+    //populateListView(editlistview,'delete');
     
     //shopping
     var parent = document.getElementById('shoppingcontent');
-    var listview = document.createElement('ul');
-    listview.setAttribute('id','listview');
-    listview.setAttribute('data-role','listview');
-    parent.appendChild(listview);
-    populateListView(listview,'troll-blank');
+    shoppingListView = document.createElement('ul');
+    shoppingListView.setAttribute('id','shoppingListView');
+    shoppingListView.setAttribute('data-role','listview');
+    parent.appendChild(shoppingListView);
+    //populateListView(listview,'troll-blank');
     
-    $('listview').listview();
-    $('listview').listview('refresh');
-	$('listview').trigger("create");
-	$('editlistview').listview();
-    $('editlistview').listview('refresh');
-	$('editlistview').trigger("create");
-	$("#shopping").page();
-	$("#edit").page();
-	$("#shopping").trigger("create");
-	$("#edit").trigger("create");
+    initialiseListView();
+
+    $('shoppingListView').listview();
+    $('shoppingListView').listview('refresh');
+	$('shoppingListView').trigger("create");
+	$('editListView').listview();
+    $('editListView').listview('refresh');
+	$('editListView').trigger("create");
+	$('#shopping').page();
+	$('#edit').page();
+	$('#shopping').trigger("create");
+	$('#edit').trigger("create");
 
 
-  $('#listview').on('click', 'li', function() {
+  $('#shoppingListView').on('click', 'li', function() {
         $(this).parent().addClass("ui-icon-check"); 
         $(this).parent().removeClass("ui-icon-troll-blank");
 
@@ -285,12 +328,12 @@ $(window).load(function(){
 			var change = '#'+id;
 			var changeUI = change+" .ui-icon";
 			if(x == "se") {
-				$('#listview').prepend(output).listview('refresh');
+				$('#shoppingListView').prepend(output).listview('refresh');
     			$(change).data('icon', 'troll-blank'); 
    				$(changeUI).addClass("ui-icon-troll-blank").removeClass("ui-icon-check"); 
    				$(changeUI).removeClass("selected");
     		} else {
-    			$('#listview').append(output).listview('refresh');
+    			$('#shoppingListView').append(output).listview('refresh');
    				$(change).data('icon', 'check'); 
    				$(changeUI).addClass("ui-icon-check").removeClass("ui-icon-troll-blank"); 
    				$(changeUI).addClass("selected");
