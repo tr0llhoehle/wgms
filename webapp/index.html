@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
     <link rel="stylesheet" href="css/wgms.css" />
-    <script src="js/wgms.js"></script>
+	<script src="js/wgms.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WGMS_Einkaufsliste</title>
   </head>
@@ -33,9 +33,9 @@
         <h1>Einkaufsliste</h1>
       </div>
       <div data-role="content">
-        <ul data-role="listview">
-          <li data-icon="troll-blank" onclick="changeIcon(this)" id="li0"><a>Mate</a></li>
-          <li data-icon="troll-blank" onclick="changeIcon(this)" id="li1"><a>MEHR Mate</a></li>
+        <ul data-role="listview" id="listview">
+          <li data-icon="troll-blank" id="li0"><a>Mate</a></li>
+          <li data-icon="troll-blank" id="li1"><a>MEHR Mate</a></li>
         </ul>
       </div>
       <div data-role="footer">
