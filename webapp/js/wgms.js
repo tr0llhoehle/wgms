@@ -197,11 +197,15 @@ var list = {
   },
 
   transmitUncheckedEntries: function() {
-    var successful;
+    var successful = false;
     var tempUncheckedEntries = this.uUncheckedEntries;
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
+    var jdata = $.toJSON(tempCheckedEntries);
+    var dataString = $.toJSON(jdata);
+    $.post('../UncheckEntries', {data: dataString}, function(res){
+    	successful = true;});
     if(successful) {
       clearTimeout(this.uncheckEntriesTimer);
       this.uncheckEntriesTimer = 0;
