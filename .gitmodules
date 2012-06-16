@@ -1,0 +1,3 @@
+[submodule "tomcat-project/JSON-java"]
+	path = tomcat-project/JSON-java
+	url = https://github.com/douglascrockford/JSON-java.git
