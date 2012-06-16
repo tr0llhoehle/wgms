@@ -154,11 +154,15 @@ var list = {
   },
   
   transmitAddedEntries: function() {
-    var successful = true; //TODO: shouldn't be initialised with true. Just for testing...
+    var successful = false; //TODO: shouldn't be initialised with true. Just for testing...
     var tempAddedEntries = this.addedEntries;
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
-    //... -->
+    //... -->   
+    var jdata = $.toJSON(tempAddedEntries);
+    var dataString = $.toJSON(jdata);
+    $.post('../AddEntries', {data: dataString}, function(res){
+    	successful = true;});
     if(successful) {
       clearTimeout(this.addEntriesTimer);
       this.addEntriesTimer = 0;
