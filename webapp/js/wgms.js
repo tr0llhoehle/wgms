@@ -325,8 +325,8 @@ $(function() {
     test.push(123);
     test.push(456);
     test.push(789);
-   
-    $.post("../TestServlet", { data: test },
+       
+    $.post("../TestServlet", { 'data[]': test },
     function(retdata) {
      	alert("Data Loaded: " + retdata);
    	});
