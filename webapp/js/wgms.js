@@ -140,13 +140,58 @@ var list = {
   },
 }
 
+function populateListView(listview) {
+	for (var i = 0; i < list.entries.length; i++) {
+		var listItem = document.createElement('li');
+        listItem.setAttribute('id','li'+i);
+        listItem.setAttribute('data-icon','troll-blank');
+        listItem.setAttribute('data-corners',"false");
+        listItem.setAttribute('data-shadow',"false");
+        listItem.setAttribute('data-iconshadow',"true");
+        listItem.setAttribute('data-wrapperels',"div");
+        listItem.setAttribute('data-iconpos',"right");
+        listItem.setAttribute('data-theme',"c");
+        listItem.innerHTML = "<a>"+list.entries[i].name+"</a>";
+        
+        listview.appendChild(listItem);
+        //$('listview').listview();
+        //$('listview').listview('refresh');
+	}
+	//$("#shopping").trigger("create");
+}
+
 $(window).load(function(){
+	list.addEntry("HATERS");
+	list.addEntry("GONNA");
+	list.addEntry("HATE");
+	//edit
+	var editparent = document.getElementById('editcontent');
+    var editlistview = document.createElement('ul');
+    editlistview.setAttribute('id','editlistview');
+    editlistview.setAttribute('data-role','listview');
+    editparent.appendChild(editlistview);
+    populateListView(editlistview);
+    
+    //shopping
+    var parent = document.getElementById('shoppingcontent');
+    var listview = document.createElement('ul');
+    listview.setAttribute('id','listview');
+    listview.setAttribute('data-role','listview');
+    parent.appendChild(listview);
+    populateListView(listview);
+    
+    $('listview').listview();
+    $('listview').listview('refresh');
+	$('listview').trigger("create");
+	$("#shopping").page();
+	$("#edit").page();
+	$("#shopping").trigger("create");
+	$("#edit").trigger("create");
+
 
   $('#listview').on('click', 'li', function() {
-        //alert("Works"); // id of clicked li by directly accessing DOMElement property
         $(this).parent().addClass("ui-icon-check"); 
         $(this).parent().removeClass("ui-icon-troll-blank");
-        //$(this).remove (); 
 
 		var id = $(this).attr('id');
         var change = '#'+id;
@@ -175,7 +220,6 @@ $(window).load(function(){
 			var changeUI = change+" .ui-icon";
 			if(x == "se") {
 				$('#listview').prepend(output).listview('refresh');
-				//alert("selected");
     			$(change).data('icon', 'troll-blank'); 
    				$(changeUI).addClass("ui-icon-troll-blank").removeClass("ui-icon-check"); 
    				$(changeUI).removeClass("selected");
