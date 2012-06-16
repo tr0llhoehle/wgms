@@ -2,7 +2,6 @@
 # ECLIPSE #
 
 *.pydevproject
-.project
 .metadata
 bin/**
 tmp/**
