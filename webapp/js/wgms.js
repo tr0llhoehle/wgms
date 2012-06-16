@@ -139,11 +139,15 @@ var list = {
   },
 
   transmitDeletedEntries: function() {
-    var successful;
+    var successful = false;
     var tempDeletedEntries = this.deletedEntries;
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
+    var jdata = $.toJSON(tempDeletedEntries);
+    var dataString = $.toJSON(jdata);
+    $.post('../DeleteEntries', {data: dataString}, function(res){
+    	successful = true;});
     if(successful) {
       clearTimeout(this.deletedEntriesTimer);
       this.deleteEntriesTimer = 0;
