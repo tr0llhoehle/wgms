@@ -69,6 +69,54 @@ var list = {
     }
   },
 
+  //This method will add a ListEntry from either uncheckedEntries or
+  //uUncheckedEntries to the uCheckedEntries-Array and start the sync
+  //with the server.
+  checkEntry: function(id) {
+    var entry = -1;
+    for(var i = 0; i < this.uncheckedEntries.length; ++i) {
+      if(this.uncheckedEntries[i].id == id) {
+        entry = this.uncheckedEntries[i];
+        break;
+      }
+    }
+    if(entry == -1) {
+      for(var i = 0; i < this.uUncheckedEntries.length; ++i) {
+        if(this.uUncheckedEntries[i].id == id) {
+          entry = this.uUncheckedEntries[i];
+        }
+        break;
+      }
+    }
+    if(entry != -1) {
+      this.uCheckedEntries.push(entry);
+      this.transmitCheckedEntries();
+    }
+  },
+
+  //See checkEntry, just for unchecking! ;-)
+  uncheckEntry: function(id) {
+    var entry = -1;
+    for(var i = 0; i < this.checkedEntries.length; ++i) {
+      if(this.checkedEntries[i].id == id) {
+        entry = this.checkedEntries[i];
+        break;
+      }
+    }
+    if(entry == -1) {
+      for(var i = 0; i < this.uCheckedEntries.length; ++i) {
+        if(this.uCheckedEntries[i].id == id) {
+          entry = this.uCheckedEntries[i];
+        }
+        break;
+      }
+    }
+    if(entry != -1) {
+      this.uUncheckedEntries.push(entry);
+      this.transmitUncheckedEntries();
+    }
+  },
+
   diffPoll: function() {
     //TODO: le magic
   },
@@ -80,11 +128,11 @@ var list = {
     successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
     if(successful) {
-      clearTimeout(deletedEntriesTimer);
-      deleteEntriesTimer = 0;
+      clearTimeout(this.deletedEntriesTimer);
+      this.deleteEntriesTimer = 0;
       this.deletedEntries.splice(0, tempDeletedEntries.length);
     } else {
-      deleteEntriesTimer = setTimeout(function(){list.transmitDeletedEntries()}, retryInterval);
+      this.deleteEntriesTimer = setTimeout(function(){list.transmitDeletedEntries()}, retryInterval);
     }
   },
   
@@ -95,15 +143,15 @@ var list = {
     successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
     if(successful) {
-      clearTimeout(addEntriesTimer);
-      addEntriesTimer = 0;
+      clearTimeout(this.addEntriesTimer);
+      this.addEntriesTimer = 0;
       for(var i = 0; i < tempAddedEntries.length; ++i) {
         //TODO: DON'T use the id from tempAddedEntries but from the server's response!
         this.uncheckedEntries.push(new ListEntry(tempAddedEntries[i].id, tempAddedEntries[i].name));
       }
       this.addedEntries.splice(0, tempAddedEntries.length);
     } else {
-      addEntriesTimer = setTimeout(function(){list.transmitAddedEntries()}, retryInterval);
+      this.addEntriesTimer = setTimeout(function(){list.transmitAddedEntries()}, retryInterval);
     }
   },
 
@@ -114,12 +162,12 @@ var list = {
     successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
     if(successful) {
-      clearTimeout(checkEntriesTimer);
-      checkEntriesTimer = 0;
+      clearTimeout(this.checkEntriesTimer);
+      this.checkEntriesTimer = 0;
       this.checkedEntries.concat(tempCheckedEntries);
       this.uCheckedEntries.splice(0, tempCheckedEntries.length);
     } else {
-      checkEntriesTimer = setTimeout(function(){transmitCheckedEntries()}, retryInterval);
+      this.checkEntriesTimer = setTimeout(function(){list.transmitCheckedEntries()}, retryInterval);
     }
   },
 
@@ -130,18 +178,19 @@ var list = {
     successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
     if(successful) {
-      clearTimeout(uncheckEntriesTimer);
-      uncheckEntriesTimer = 0;
+      clearTimeout(this.uncheckEntriesTimer);
+      this.uncheckEntriesTimer = 0;
       this.uncheckedEntries.concat(tempUncheckedEntries);
       this.uUncheckedEntries.splice(0, tempUncheckedEntries.length);
     } else {
-      uncheckEntriesTimer = setTimeout(function(){transmitUncheckedEntries()}, retryInterval);
+      this.uncheckEntriesTimer = setTimeout(function(){list.transmitUncheckedEntries()}, retryInterval);
     }
   },
 }
 
 function populateListView(listview,icon) {
-	for (var i = 0; i < list.entries.length; i++) {
+	/* TODO: doesn't work anymore since the arrays .. are DIFFERENT! :-O
+    for (var i = 0; i < list.entries.length; i++) {
 		var listItem = document.createElement('li');
         listItem.setAttribute('id','li'+i);
         listItem.setAttribute('data-icon',icon);
@@ -156,7 +205,7 @@ function populateListView(listview,icon) {
         listview.appendChild(listItem);
         //$('listview').listview();
         //$('listview').listview('refresh');
-	}
+	}*/
 	//$("#shopping").trigger("create");
 }
 
@@ -237,13 +286,24 @@ $(window).load(function(){
 
 }); 
 
+//login "validation"
+$(function() {
+    // Page show events
+      $(document).bind("pagechange", function(event, obj) {
+        //alert("lol");
+    });
+});
+
 //login form
 $(function() {  
   $(".button").click(function() {  
     // validate and process form here  
     var pname = $("input#name").val();  
     var pw = $("input#password").val();  
-    $.post("ShoppingListServlet", { name: pname, password:pw } );
+    $.post("ShoppingListServlet", { name: pname, password:pw },
+    function(data) {
+     	alert("Data Loaded: " + data);
+   	});
     window.location = "#edit";
   });  
 });  
