@@ -78,7 +78,6 @@ var list = {
     for(var i = 0; i < this.uncheckedEntries.length; ++i) {
       if(this.uncheckedEntries[i].id == id) {
         entry = jQuery.extend(true, {}, this.uncheckedEntries[i]);
-        alert(entry);
         this.uncheckedEntries.splice(i, 1);
         done = true;
         break;
@@ -103,7 +102,7 @@ var list = {
   //See checkEntry, just for unchecking! ;-)
   uncheckEntry: function(id) {
     var entry;
-    var done;
+    var done = false;
     for(var i = 0; i < this.checkedEntries.length; ++i) {
       if(this.checkedEntries[i].id == id) {
         entry = jQuery.extend(true, {}, this.checkedEntries[i]);
