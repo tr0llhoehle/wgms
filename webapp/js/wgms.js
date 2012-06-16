@@ -131,6 +131,10 @@ var list = {
     //TODO: le magic
   },
   
+  initialRequest: function() {
+    //TODO le small magic
+  },
+
   transmitDeletedEntries: function() {
     var successful;
     var tempDeletedEntries = this.deletedEntries;
