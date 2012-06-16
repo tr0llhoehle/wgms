@@ -1,31 +1,34 @@
+function ListEntry(id, name) {
+  this.name = name;
+  this.id = id;
+  this.selected = false;
+}
+
 //definition of an anonymous class which acts as a list fo ListEntries.
 //An entry in the list contains the following attributes:
 //  name - the name of the item
 //  id - an unique identifier (unique in relation to the list) to generate valid html-ids.
 //  selected - boolean value whether the entry is selected or not.
 var list = {
-  listEntries: [],
+  entries: [],
   //TODO: this may cause overflows when the app runs a long time, I suppose...
   nextId: 0,
 
   addEntry: function(name) {
-    var entry;
-    entry.name = name;
-    entry.id = this.nextId;
+    this.entries.push(new ListEntry(this.nextId, name));
     this.nextId += 1;
-    entry.selected = false;
-    return this.listEntries.push(entry);
   },
 
-  removeEntry: function(foo) {
-    for(var i = 0; i < listEntries.length; ++i) {
-      if(foo == entry.id) {
-        listEntries.splice(i, 1);
+  removeEntry: function(id) {
+    for(var i = 0; i < this.entries.length; ++i) {
+      if(id == this.entries[i].id) {
+        this.entries.splice(i, 1);
         break;
       }
     }
   }
 }
+
 function changeIcon(e) { 
 	var change = "#"+e.id;
 	var changeUI = change+" .ui-icon";
