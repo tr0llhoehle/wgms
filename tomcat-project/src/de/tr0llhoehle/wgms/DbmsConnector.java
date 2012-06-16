@@ -1,4 +1,4 @@
-package test;
+package de.tr0llhoehle.wgms;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,6 +52,9 @@ public class DbmsConnector {
 	}
 
 	public void closeConnection() {
+		if (c == null) {
+			return;
+		}
 		try {
 			c.close();
 		} catch (SQLException e) {
@@ -62,13 +65,13 @@ public class DbmsConnector {
 	}
 
 	public String getPassword(String username) {
-		if (username == null || username.trim().equals("")) {
+		if (username == null || username.trim().equals("") && !connected) {
 			return null;
 		}
 
 		try {
 			PreparedStatement getPwd = c
-					.prepareStatement("SELECT password FROM users WHERE username EQUALS ?");
+					.prepareStatement("SELECT password FROM users WHERE username = ?");
 			getPwd.setString(1, username.trim());
 			ResultSet result = getPwd.executeQuery();
 			String password = null;
@@ -87,7 +90,7 @@ public class DbmsConnector {
 	}
 
 	public void checkItem(String itemId) {
-		if (itemId == null || itemId.trim().equals("")) {
+		if (itemId == null || itemId.trim().equals("") || !connected) {
 			return;
 		}
 
@@ -107,7 +110,7 @@ public class DbmsConnector {
 	}
 
 	public void uncheckItem(String itemId) {
-		if (itemId == null || itemId.trim().equals("")) {
+		if (itemId == null || itemId.trim().equals("") || !connected) {
 			return;
 		}
 
@@ -127,7 +130,19 @@ public class DbmsConnector {
 	}
 
 	public void insertItem(String shoppingListId, String description) {
-		PreparedStatement checkItem = c.prepareStatement("INSERT INTO items");
+		if (shoppingListId == null || shoppingListId.trim().equals("")
+				|| description == null || description.trim().equals("")
+				|| !connected) {
+			return;
+		}
+
+		try {
+			PreparedStatement checkItem = c
+					.prepareStatement("INSERT INTO items Values(null");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
