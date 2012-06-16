@@ -202,7 +202,7 @@ var list = {
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
-    var jdata = $.toJSON(tempCheckedEntries);
+    var jdata = $.toJSON(tempUncheckedEntries);
     var dataString = $.toJSON(jdata);
     $.post('../UncheckEntries', {data: dataString}, function(res){
     	successful = true;});
