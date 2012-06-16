@@ -328,12 +328,12 @@ $(window).load(function(){
 			var change = '#'+id;
 			var changeUI = change+" .ui-icon";
 			if(x == "se") {
-				$('#listview').prepend(output).listview('refresh');
+				$('#shoppingListView').prepend(output).listview('refresh');
     			$(change).data('icon', 'troll-blank'); 
    				$(changeUI).addClass("ui-icon-troll-blank").removeClass("ui-icon-check"); 
    				$(changeUI).removeClass("selected");
     		} else {
-    			$('#listview').append(output).listview('refresh');
+    			$('#shoppingListView').append(output).listview('refresh');
    				$(change).data('icon', 'check'); 
    				$(changeUI).addClass("ui-icon-check").removeClass("ui-icon-troll-blank"); 
    				$(changeUI).addClass("selected");
