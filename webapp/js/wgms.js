@@ -300,10 +300,25 @@ $(function() {
     // validate and process form here  
     var pname = $("input#name").val();  
     var pw = $("input#password").val();  
-    $.post("ShoppingListServlet", { name: pname, password:pw },
+    $.post("../ShoppingListServlet", { name: pname, password:pw },
     function(data) {
      	alert("Data Loaded: " + data);
    	});
     window.location = "#edit";
+  });  
+});  
+
+//JSON test
+$(function() {  
+  $(".jtest").click(function() {  
+  	var test = new Array();
+    test.push(123);
+    test.push(456);
+    test.push(789);
+   
+    $.post("../TestServlet", { data: test },
+    function(retdata) {
+     	alert("Data Loaded: " + retdata);
+   	});
   });  
 });  
