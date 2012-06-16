@@ -300,7 +300,7 @@ $(function() {
     // validate and process form here  
     var pname = $("input#name").val();  
     var pw = $("input#password").val();  
-    $.post("ShoppingListServlet", { name: pname, password:pw },
+    $.post("test.php", { name: pname, password:pw },
     function(data) {
      	alert("Data Loaded: " + data);
    	});
