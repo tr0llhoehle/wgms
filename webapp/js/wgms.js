@@ -177,11 +177,15 @@ var list = {
   },
 
   transmitCheckedEntries: function() {
-    var successful;
+    var successful = false;
     var tempCheckedEntries = this.uCheckedEntries;
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
+    var jdata = $.toJSON(tempCheckedEntries);
+    var dataString = $.toJSON(jdata);
+    $.post('../CheckEntries', {data: dataString}, function(res){
+    	successful = true;});
     if(successful) {
       clearTimeout(this.checkEntriesTimer);
       this.checkEntriesTimer = 0;
