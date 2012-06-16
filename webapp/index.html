@@ -8,17 +8,35 @@
     <title>WGMS_Einkaufsliste</title>
   </head>
   <body>
-    <div data-role="page">
+    <div id="edit" data-role="page">
       <div data-role="header">
         <h1>Einkaufsliste</h1>
       </div>
       <div data-role="content">
         <ul data-role="listview">
-          <li data-icon="check"><a href="#">data-icon="check"</a></li>
+          <li data-icon="delete">Mate</li>
+          <li data-icon="delete">MEHR Mate</li>
         </ul>
       </div>
       <div data-role="footer">
-        <p>Foo! Das ist der fooooooter.</p>
+        <a href="#shopping">start shopping</a>
+        <a href="#add">add item</a>
+      </div>
+    </div>
+
+    <div id="shopping" data-role="page">
+      <div data-role="header">
+        <h1>Einkaufsliste</h1>
+      </div>
+      <div data-role="content">
+        <ul data-role="listview">
+          <li data-icon="false">Mate</li>
+          <li data-icon="false">MEHR Mate</li>
+        </ul>
+      </div>
+      <div data-role="footer">
+        <input data-mini="true" style="width: 100px;" type="text" name="total sum" id="totalSum"/>
+        <a href="#edit">done shopping</a>
       </div>
     </div>
   </body>
