@@ -322,13 +322,16 @@ $(function() {
 $(function() {  
   $(".jtest").click(function() {  
   	var test = new Array();
-    test.push(123);
-    test.push(456);
-    test.push(789);
+    test[0] = 123;
+    test[1] = 456;
+    test[2] = 789;
+    
+    var data = $.toJSON(test);
        
-    $.post("../TestServlet", { 'data[]': test },
+    $.post("../TestServlet", { 'data': data },
     function(retdata) {
      	alert("Data Loaded: " + retdata);
    	});
+
   });  
 });  
