@@ -199,10 +199,9 @@ var list = {
 }
 
 function populateListView(listview,icon) {
-	/* TODO: doesn't work anymore since the arrays .. are DIFFERENT! :-O
-    for (var i = 0; i < list.entries.length; i++) {
+    for (var i = 0; i < list.uncheckedEntries.length; i++) {
 		var listItem = document.createElement('li');
-        listItem.setAttribute('id','li'+i);
+        listItem.setAttribute('id','li'+list.uncheckedEntries[i].id);
         listItem.setAttribute('data-icon',icon);
         listItem.setAttribute('data-corners',"false");
         listItem.setAttribute('data-shadow',"false");
@@ -210,16 +209,17 @@ function populateListView(listview,icon) {
         listItem.setAttribute('data-wrapperels',"div");
         listItem.setAttribute('data-iconpos',"right");
         listItem.setAttribute('data-theme',"c");
-        listItem.innerHTML = "<a>"+list.entries[i].name+"</a>";
+        listItem.innerHTML = "<a>"+list.uncheckedEntries[i].name+"</a>";
         
         listview.appendChild(listItem);
         //$('listview').listview();
         //$('listview').listview('refresh');
-	}*/
+	}
 	//$("#shopping").trigger("create");
 }
 
 $(window).load(function(){
+  list.addEntry("Fuck yeah, PONYTIME!!!");
 	list.addEntry("HATERS");
 	list.addEntry("GONNA");
 	list.addEntry("HATE");
