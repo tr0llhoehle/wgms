@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+    <title>WGMS_Einkaufsliste</title>
+  </head>
+  <body>
+    <div id="edit" data-role="page">
+      <div data-role="header">
+        <h1>Einkaufsliste</h1>
+      </div>
+      <div data-role="content">
+        <ul data-role="listview">
+          <li data-icon="delete">Mate</li>
+          <li data-icon="delete">MEHR Mate</li>
+        </ul>
+      </div>
+      <div data-role="footer">
+        <a href="#shopping">start shopping</a>
+        <a href="#add">add item</a>
+      </div>
+    </div>
+
+    <div id="shopping" data-role="page">
+      <div data-role="header">
+        <h1>Einkaufsliste</h1>
+      </div>
+      <div data-role="content">
+        <ul data-role="listview">
+          <li data-icon="false">Mate</li>
+          <li data-icon="false">MEHR Mate</li>
+        </ul>
+      </div>
+      <div data-role="footer">
+        <input data-mini="true" style="width: 100px;" type="text" name="total sum" id="totalSum"/>
+        <a href="#edit">done shopping</a>
+      </div>
+    </div>
+  </body>
+</html>
