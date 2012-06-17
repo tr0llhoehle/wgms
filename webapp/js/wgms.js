@@ -247,7 +247,10 @@ var list = {
     				this.deletedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     				break;
     		}*/
-    	}});
+    	}
+    	$('#shoppingListView').listview('refresh');
+    	$('#editListView').listview('refresh');
+    	});
   },
 
   transmitDeletedEntries: function() {
