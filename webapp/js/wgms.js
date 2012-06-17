@@ -141,16 +141,16 @@ var list = {
     	var jdata = $.parseJSON(res);
     	for(var i=0; i<jdata.length; i++) {
     		if(jdata[i].state == 0) {
-    			list.addedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    			list.addedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
     		}
     		if(jdata[i].state == 1) {
-    			list.checkedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
     		}
     		if(jdata[i].state == 2) {
-    			list.uncheckedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
     		}
     		if(jdata[i].state == 3) {
-    			list.deletedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    			list.deletedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
     		}
     		/*switch(jdata[i].state) {
     			case "0":
