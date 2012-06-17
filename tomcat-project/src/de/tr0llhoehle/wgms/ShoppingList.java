@@ -2,6 +2,8 @@ package de.tr0llhoehle.wgms;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+
 public class ShoppingList {
 	
 
@@ -9,7 +11,7 @@ public class ShoppingList {
 	protected ArrayList<Item> list;
 	protected static ShoppingList instance;
 	
-	public ShoppingList getInstance() {
+	public static ShoppingList getInstance() {
 		if (instance == null) {
 			instance = new ShoppingList();
 		}
@@ -25,6 +27,10 @@ public class ShoppingList {
 		this.attachedClients.add(client);
 	}
 	
+	public synchronized void removeClient(ClientConnection client) {
+		this.list.remove(client);
+	}
+	
 	public synchronized void addListItem(Item item) {
 		this.list.add(item);
 	}
@@ -35,6 +41,14 @@ public class ShoppingList {
 				client.addListChange(change);
 			}
 		}
+	}
+	
+	public synchronized JSONArray toJSONArray() {
+		JSONArray tmp = new JSONArray();
+		for (Item item : this.list) {
+			tmp.put(item.toJSONObject());
+		}
+		return tmp;
 	}
 
 }
