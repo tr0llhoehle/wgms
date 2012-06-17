@@ -20,13 +20,11 @@ public class DbmsConnector {
 
 	// database = wgms
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/wgms";
-//	private static final String USER = "troll";
-//	private static final String PASS = "troll";
-	
-	
+	// private static final String USER = "troll";
+	// private static final String PASS = "troll";
+
 	private static final String USER = "wgms";
 	private static final String PASS = "heZ7ayGBYsFKxsVj";
-	
 
 	private static boolean connected = false;
 	private Connection c = null;
@@ -374,11 +372,13 @@ public class DbmsConnector {
 		return null;
 	}
 
-	public void shoppingDone(String username, int shoppingListId, BigDecimal value) {
+	public synchronized void shoppingDone(String username, int shoppingListId,
+			BigDecimal value) {
 		this.shoppingDone(username, String.valueOf(shoppingListId), value);
 	}
 
-	public void shoppingDone(String username, String shoppingListId, BigDecimal value) {
+	public synchronized void shoppingDone(String username,
+			String shoppingListId, BigDecimal value) {
 		if (username == null || username.trim().equals("")
 				|| shoppingListId == null || shoppingListId.trim().equals("")
 				|| !connected) {
@@ -387,41 +387,40 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement createPurchase = c
-					.prepareStatement("INSERT INTO purchases (value, user_id)VALUES (? ,(SELECT user_id FROM users WHERE username = ?))", Statement.RETURN_GENERATED_KEYS);
+					.prepareStatement(
+							"INSERT INTO purchases (value, user_id)VALUES (? ,(SELECT user_id FROM users WHERE username = ?))",
+							Statement.RETURN_GENERATED_KEYS);
 			createPurchase.setBigDecimal(1, value);
 			createPurchase.setString(2, username.trim());
-			
+
 			createPurchase.executeUpdate();
-			
-//			ResultSet result = createPurchase.executeQuery("SELECT LAST_INSERT_ID()");
+
+			// ResultSet result =
+			// createPurchase.executeQuery("SELECT LAST_INSERT_ID()");
 			ResultSet result = createPurchase.getGeneratedKeys();
-			
+
 			int autoIncValue = -1;
-			
 
 			if (result.next()) {
-				//get created key
+				// get created key
 				autoIncValue = result.getInt(1);
-//			    System.out.println(autoIncValue);
-				
-				//update items
+				// System.out.println(autoIncValue);
+
+				// update items
 				PreparedStatement updateItems = c
 						.prepareStatement("UPDATE items SET purchase_id =?, checked = 0 WHERE shopping_list_id = ? AND purchase_id IS NOT NULL");
 				updateItems.setString(1, String.valueOf(autoIncValue));
 				updateItems.setString(2, shoppingListId.trim());
 
 				updateItems.executeUpdate();
-				
-				
 
 			} else {
-				//something very wrong
+				// something very wrong
 				return;
 			}
 
-			
 			// getChecked.close();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -430,4 +429,29 @@ public class DbmsConnector {
 
 	}
 
+	public synchronized ArrayList<String> getEmailsOfFlatmates(String username) {
+		if (username == null || username.trim().equals("") || !connected) {
+			return null;
+		}
+
+		ArrayList<String> adresses = new ArrayList<String>();
+
+		try {
+			PreparedStatement getEmail = c
+					.prepareStatement("SELECT email FROM users WHERE wg_id = (SELECT wg_id FROM users WHERE username = ?)");
+			getEmail.setString(1, username.trim());
+			ResultSet result = getEmail.executeQuery();
+			while (result.next()) {
+				adresses.add(result.getString("email"));
+			}
+
+			// getEmail.close();
+			return adresses;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		return null;
+	}
 }
