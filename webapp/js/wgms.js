@@ -251,12 +251,12 @@ var list = {
     //... -->
     var dataString = $.toJSON(tempDeletedEntries);
     $.post('../DeleteEntries', {data: dataString}, function(res){
-    	successful = true;});
-    if(successful) {
+    	successful = true;
       clearTimeout(this.deletedEntriesTimer);
       this.deleteEntriesTimer = 0;
       this.deletedEntries.splice(0, tempDeletedEntries.length);
-    } else {
+    });
+    if(successful) {
       this.deleteEntriesTimer = setTimeout(function(){list.transmitDeletedEntries()}, retryInterval);
     }
   },
@@ -269,16 +269,16 @@ var list = {
     //... -->   
     var dataString = $.toJSON(tempAddedEntries);
     $.post('../AddEntries', {data: dataString}, function(res){
-    	successful = true;});
-    if(successful) {
+    	successful = true;
       clearTimeout(this.addEntriesTimer);
       this.addEntriesTimer = 0;
       for(var i = 0; i < tempAddedEntries.length; ++i) {
-        //TODO: DON'T use the id from tempAddedEntries but from the server's response!
-        this.uncheckedEntries.push(new ListEntry(tempAddedEntries[i].id, tempAddedEntries[i].name));
+        var serverIds = $.parseJSON(res); //TODO: DOES IT WORK? O_O
+        this.uncheckedEntries.push(new ListEntry(serverIds[i], tempAddedEntries[i].name));
       }
       this.addedEntries.splice(0, tempAddedEntries.length);
-    } else {
+    });
+    if(!successful) {
       this.addEntriesTimer = setTimeout(function(){list.transmitAddedEntries()}, retryInterval);
     }
   },
@@ -291,14 +291,14 @@ var list = {
     //... -->
     var dataString = $.toJSON(tempCheckedEntries);
     $.post('../CheckEntries', {data: dataString}, function(res){
-    	successful = true;});
-    if(successful) {
+    	successful = true;
       clearTimeout(this.checkEntriesTimer);
       this.checkEntriesTimer = 0;
       this.checkedEntries = this.checkedEntries.concat(tempCheckedEntries);
       animations.addCheckedEntries(tempCheckedEntries);
       this.uCheckedEntries.splice(0, tempCheckedEntries.length);
-    } else {
+    });
+    if(!successful) {
       this.checkEntriesTimer = setTimeout(function(){list.transmitCheckedEntries()}, retryInterval);
     }
   },
@@ -311,14 +311,14 @@ var list = {
     //... -->
     var dataString = $.toJSON(tempUncheckedEntries);
     $.post('../UncheckEntries', {data: dataString}, function(res){
-    	successful = true;});
-    if(successful) {
+    	successful = true;
       clearTimeout(this.uncheckEntriesTimer);
       this.uncheckEntriesTimer = 0;
       this.uncheckedEntries = this.uncheckedEntries.concat(tempUncheckedEntries);
       animations.addUncheckedEntries(tempUncheckedEntries);
       this.uUncheckedEntries.splice(0, tempUncheckedEntries.length);
-    } else {
+    });
+    if(!successful) {
       this.uncheckEntriesTimer = setTimeout(function(){list.transmitUncheckedEntries()}, retryInterval);
     }
   },
@@ -334,12 +334,11 @@ var list = {
     var dataString = $.toJSON(jsonObject);
     $.post('../DoneShopping', {data: dataString}, function(res){
       successful = true;
-    });
-    if(successful) {
       clearTimeout(this.doneShoppingTimer);
       this.doneShoppingTimer = 0;
       this.checkedEntries.splice(0, jsonObject.entries.length);
-    } else {
+    });
+    if(!successful) {
       this.doneShoppingTimer = setTimeout(function(){list.transmitDoneShopping(sum)}, retryInterval);
     } 
   },
