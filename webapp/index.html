@@ -9,7 +9,7 @@
 	<script src="js/wgms.js"></script>
 	<script src="js/json.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WGMS_Einkaufsliste</title>
+    <title>WGMS Shopping list</title>
   </head>
   <body>
     <div id="login" data-role="page">
@@ -19,7 +19,7 @@
       <div data-role="content" id="logincontent">
   		<form method="post" action="../Login">
 			Username: <input name="name" type="text"><br> 
-			Kennwort: <input name="password" type="password"><br> 
+			Password: <input name="password" type="password"><br> 
 			<input class="button" type="button" value="Login">
 		</form> 
 </div>  
@@ -28,7 +28,7 @@
   
     <div id="edit" data-role="page">
       <div data-role="header">
-        <h1>Einkaufsliste</h1>
+        <h1>Shopping list</h1>
       </div>
       <div data-role="content" id="editcontent">
 
@@ -43,7 +43,7 @@
     <div id="shopping" data-role="page">
       <div data-role="header">
         <a data-rel="back">Back</a>
-        <h1>Einkaufsliste</h1>
+        <h1>Shopping list</h1>
       </div>
       <div data-role="content" id="shoppingcontent">
         
@@ -67,6 +67,20 @@
 
       <div data-role="footer">
         <a href="#edit" data-rel="back" onclick="list.addEntry(document.getElementById('itemname').value)">Add</a>
+      </div>
+    </div>
+
+    <div id="loginFail" data-role="page">
+      <div data-role="header">
+        <h1>Login failed</h1>
+      </div>
+
+      <div data-role="content">
+        <h2>Wrong username or password.</h2>
+      </div>
+
+      <div data-role="footer">
+        <a href="#login" data-rel="back">Okay</a>
       </div>
     </div>
   </body>
