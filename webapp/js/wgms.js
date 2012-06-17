@@ -141,17 +141,17 @@ var list = {
     	var jdata = $.parseJSON(res);
     	for(var i=0; i<jdata.length; i++) {
     		switch(jdata[i].state) {
-    			case 0:
+    			case "0":
     				this.addedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     				break;
-    			case 1:
+    			case "1":
     				this.checkedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     				break;
-    			case 2:
-    				alert("case state:"+jdata[i].state+" id"+jdata[i].id);
+    			case "2":
+    				alert("state:"+jdata[i].state+" id"+jdata[i].id);
     				this.uncheckedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     				break;
-    			case 3:
+    			case "3":
     				this.deletedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     				break;
     		}
