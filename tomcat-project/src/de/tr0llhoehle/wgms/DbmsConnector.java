@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -381,21 +382,26 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement createPurchase = c
-					.prepareStatement("INSERT INTO purchases (value, user_id)VALUES (? ,SELECT user_id FROM users WHERE username = ?)");
+					.prepareStatement("INSERT INTO purchases (value, user_id)VALUES (? ,(SELECT user_id FROM users WHERE username = ?))", Statement.RETURN_GENERATED_KEYS);
 			createPurchase.setBigDecimal(1, value);
 			createPurchase.setString(2, username.trim());
-
+			
 			createPurchase.executeUpdate();
+			
+//			ResultSet result = createPurchase.executeQuery("SELECT LAST_INSERT_ID()");
 			ResultSet result = createPurchase.getGeneratedKeys();
+			
 			int autoIncValue = -1;
+			
 
 			if (result.next()) {
 				//get created key
-				autoIncValue = result.getInt("purchase_id");
+				autoIncValue = result.getInt(1);
+//			    System.out.println(autoIncValue);
 				
 				//update items
 				PreparedStatement updateItems = c
-						.prepareStatement("UPDATE items SET purchase_id= ? WHERE shopping_list_id = ? AND purchases NOT null");
+						.prepareStatement("UPDATE items SET purchase_id =?, checked = 0 WHERE shopping_list_id = ? AND purchase_id IS NOT NULL");
 				updateItems.setString(1, String.valueOf(autoIncValue));
 				updateItems.setString(2, shoppingListId.trim());
 
