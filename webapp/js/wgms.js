@@ -139,7 +139,7 @@ var list = {
     //TODO le small magic
     $.post('../InitialRequest', {data: dataString}, function(res){
     	var jdata = $.parseJSON(res);
-    	alert(jdata);});
+    	alert(jdata[0].name);});
   },
 
   transmitDeletedEntries: function() {
