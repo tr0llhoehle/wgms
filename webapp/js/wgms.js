@@ -338,8 +338,13 @@ var list = {
   transmitDoneShopping: function(sum) {
     var successful = false;
     var jsonObject;
+    var tempCheckedEntries = this.uncheckedEntries;
+    var ids = new Array();
+    for (i in tempCheckedEntries) {
+      ids.push(tempCheckedEntries[i].id);
+    }
     jsonObject.sum = sum;
-    jsonObject.entries = this.checkedEntries;
+    jsonObject.ids = ids;
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
@@ -348,7 +353,7 @@ var list = {
       successful = true;
       clearTimeout(list.doneShoppingTimer);
       list.doneShoppingTimer = 0;
-      list.checkedEntries.splice(0, jsonObject.entries.length);
+      list.checkedEntries.splice(0, tempCheckedEntries.length);
     });
     if(!successful) {
       this.doneShoppingTimer = setTimeout(function(){list.transmitDoneShopping(sum)}, retryInterval);
