@@ -310,7 +310,10 @@ var list = {
       alert("sending id: " + tempCheckedEntries[i].id);
       ids.push(tempCheckedEntries[i].id);
     }
-    var dataString = $.toJSON(ids);
+    var obj = {
+      ids: ids
+    }
+    var dataString = $.toJSON(obj);
     alert("JSONized datastring: " + dataString);
     $.post('../CheckEntries', {data: dataString}, function(res){
     	successful = true;
