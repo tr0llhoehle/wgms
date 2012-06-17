@@ -47,10 +47,10 @@ public class DiffPoll extends HttpServlet {
 				String data = request.getParameter("data");
 				try {
 					
-					data = data.substring(1, data.length()-1);
+					/*data = data.substring(1, data.length()-1);
 					
 					data = data.replaceAll("\"", "");
-					data = data.replace("\\", "");
+					data = data.replace("\\", "");*/
 					JSONArray jsonArray = new JSONArray(data);
 					
 				} catch (JSONException e) {

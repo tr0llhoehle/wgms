@@ -35,7 +35,7 @@ public class ClientConnection implements Serializable, HttpSessionBindingListene
 		return null;
 	}
 	
-	public void addListChange(String change) {
+	public void addListChange(Item item) {
 		//TODO add change-String (JSON?) to the queue
 	}
 
