@@ -202,6 +202,8 @@ var list = {
     			list.deletedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
     		}
     	}
+    	$('#shoppingListView').listview('refresh');
+    	$('#editListView').listview('refresh');
     	});
   },
   
