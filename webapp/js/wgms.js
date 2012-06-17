@@ -98,6 +98,7 @@ var list = {
     }
     if(done) {
       this.uCheckedEntries.push(entry);
+      animations.startTransmittingEntries([entry]);
       this.transmitCheckedEntries();
     }
   },
@@ -126,6 +127,7 @@ var list = {
     }
     if(done) {
       this.uUncheckedEntries.push(entry);
+      animations.startTransmittingEntries([entry]);
       this.transmitUncheckedEntries();
     }
   },
@@ -182,6 +184,7 @@ var list = {
       clearTimeout(this.checkEntriesTimer);
       this.checkEntriesTimer = 0;
       this.checkedEntries = this.checkedEntries.concat(tempCheckedEntries);
+      animations.addCheckedEntries(tempCheckedEntries);
       this.uCheckedEntries.splice(0, tempCheckedEntries.length);
     } else {
       this.checkEntriesTimer = setTimeout(function(){list.transmitCheckedEntries()}, retryInterval);
@@ -198,12 +201,49 @@ var list = {
       clearTimeout(this.uncheckEntriesTimer);
       this.uncheckEntriesTimer = 0;
       this.uncheckedEntries = this.uncheckedEntries.concat(tempUncheckedEntries);
+      animations.addUncheckedEntries(tempUncheckedEntries);
       this.uUncheckedEntries.splice(0, tempUncheckedEntries.length);
     } else {
       this.uncheckEntriesTimer = setTimeout(function(){list.transmitUncheckedEntries()}, retryInterval);
     }
   },
 }
+
+var animations = {
+  startTransmittingEntries: function(entries, list) {
+    //TODO: doesn't work yet. :( 
+    //Need an identification here that the transmitting is running...
+    for (i in entries) {
+      var uiId = '#' + list + entries[i].id;
+      var newUiEl = '<li data-icon="delete" id="' + uiId + '"><a>' + entries[i].name + '</a></li>';
+      $('#shoppingListView').listview('refresh');
+    }
+  },
+
+  addUncheckedEntries: function(entries) {
+    for (i in entries) {
+      var uiId = '#sli' + entries[i].id;
+      var newUiEl = '<li data-icon="check" id="' + uiId + '"><a>' + entries[i].name + '</a></li>';
+      $(uiId).slideUp(700).delay(100).queue(function() {
+        $(uiId).remove();
+        $('#shoppingListView').prepend(newUiEl).listview('refresh');
+      });
+    }
+  },
+
+  addCheckedEntries: function(entries) {
+    for (i in entries) {
+      var uiId = '#sli' + entries[i].id;
+      var newUiEl = '<li data-icon="check" id="' + uiId + '"><a>' + entries[i].name + '</a></li>';
+
+      $(uiId).slideUp(700).delay(100).queue(function() {
+        $(uiId).remove();
+        $('#shoppingListView').append(newUiEl).listview('refresh');
+      });
+    }
+  },
+}
+
 /*
   uncheckedEntries: [],
   uUncheckedEntries: [],
@@ -236,7 +276,7 @@ function populateListView(listview,icon) {
 function initialiseListView() {
   for (i in list.uncheckedEntries) {
     var editListItem = document.createElement('li');
-    editListItem.setAttribute('id','li'+list.uncheckedEntries[i].id);
+    editListItem.setAttribute('id','eli'+list.uncheckedEntries[i].id);
     editListItem.setAttribute('data-icon','delete');
     editListItem.setAttribute('data-corners',"false");
     editListItem.setAttribute('data-shadow',"false");
@@ -247,7 +287,7 @@ function initialiseListView() {
     editListItem.innerHTML = "<a>"+list.uncheckedEntries[i].name+"</a>";
 
     var shoppingListItem = document.createElement('li');
-    shoppingListItem.setAttribute('id','li'+list.uncheckedEntries[i].id);
+    shoppingListItem.setAttribute('id','sli'+list.uncheckedEntries[i].id);
     shoppingListItem.setAttribute('data-icon','troll-blank');
     shoppingListItem.setAttribute('data-corners',"false");
     shoppingListItem.setAttribute('data-shadow',"false");
@@ -299,7 +339,10 @@ $(window).load(function(){
 
 
   $('#shoppingListView').on('click', 'li', function() {
-        $(this).parent().addClass("ui-icon-check"); 
+    var uiId = $(this).attr('id');
+
+    list.checkEntry(uiId.substr(3, uiId.length-3));
+/*        $(this).parent().addClass("ui-icon-check"); 
         $(this).parent().removeClass("ui-icon-troll-blank");
 
 		var id = $(this).attr('id');
@@ -338,7 +381,7 @@ $(window).load(function(){
    				$(changeUI).addClass("ui-icon-check").removeClass("ui-icon-troll-blank"); 
    				$(changeUI).addClass("selected");
     		}
-		});
+		});*/
     }); 
 
 }); 
