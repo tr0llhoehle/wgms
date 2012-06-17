@@ -252,9 +252,9 @@ var list = {
     var dataString = $.toJSON(tempDeletedEntries);
     $.post('../DeleteEntries', {data: dataString}, function(res){
     	successful = true;
-      clearTimeout(this.deletedEntriesTimer);
-      this.deleteEntriesTimer = 0;
-      this.deletedEntries.splice(0, tempDeletedEntries.length);
+      clearTimeout(list.deletedEntriesTimer);
+      list.deleteEntriesTimer = 0;
+      list.deletedEntries.splice(0, tempDeletedEntries.length);
     });
     if(successful) {
       this.deleteEntriesTimer = setTimeout(function(){list.transmitDeletedEntries()}, retryInterval);
@@ -274,13 +274,13 @@ var list = {
     var dataString = $.toJSON(names);
     $.post('../AddEntries', {data: dataString}, function(res){
     	successful = true;
-      clearTimeout(this.addEntriesTimer);
-      this.addEntriesTimer = 0;
+      clearTimeout(list.addEntriesTimer);
+      list.addEntriesTimer = 0;
       var serverIds = $.parseJSON(res); //TODO: DOES IT WORK? O_O
       for(var i = 0; i < tempAddedEntries.length; ++i) {
-        this.uncheckedEntries.push(new ListEntry(serverIds[i], tempAddedEntries[i].name));
+        list.uncheckedEntries.push(new ListEntry(serverIds[i], tempAddedEntries[i].name));
       }
-      this.addedEntries.splice(0, tempAddedEntries.length);
+      list.addedEntries.splice(0, tempAddedEntries.length);
     });
     if(!successful) {
       this.addEntriesTimer = setTimeout(function(){list.transmitAddedEntries()}, retryInterval);
@@ -290,17 +290,21 @@ var list = {
   transmitCheckedEntries: function() {
     var successful = false;
     var tempCheckedEntries = this.uCheckedEntries;
+    var ids = new Array();
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
-    var dataString = $.toJSON(tempCheckedEntries);
+    for (i in tempCheckedEntries) {
+      ids.push(tempCheckedEntries[i].id);
+    }
+    var dataString = $.toJSON(ids);
     $.post('../CheckEntries', {data: dataString}, function(res){
     	successful = true;
       clearTimeout(this.checkEntriesTimer);
-      this.checkEntriesTimer = 0;
-      this.checkedEntries = this.checkedEntries.concat(tempCheckedEntries);
+      list.checkEntriesTimer = 0;
+      list.checkedEntries = list.checkedEntries.concat(tempCheckedEntries);
       animations.addCheckedEntries(tempCheckedEntries);
-      this.uCheckedEntries.splice(0, tempCheckedEntries.length);
+      list.uCheckedEntries.splice(0, tempCheckedEntries.length);
     });
     if(!successful) {
       this.checkEntriesTimer = setTimeout(function(){list.transmitCheckedEntries()}, retryInterval);
@@ -310,17 +314,21 @@ var list = {
   transmitUncheckedEntries: function() {
     var successful = false;
     var tempUncheckedEntries = this.uUncheckedEntries;
+    var ids = new Array();
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
+    for (i in tempUncheckedEntries) {
+      ids.push(tempUncheckedEntries[i].id);
+    }
     var dataString = $.toJSON(tempUncheckedEntries);
     $.post('../UncheckEntries', {data: dataString}, function(res){
     	successful = true;
       clearTimeout(this.uncheckEntriesTimer);
-      this.uncheckEntriesTimer = 0;
-      this.uncheckedEntries = this.uncheckedEntries.concat(tempUncheckedEntries);
+      list.uncheckEntriesTimer = 0;
+      list.uncheckedEntries = list.uncheckedEntries.concat(tempUncheckedEntries);
       animations.addUncheckedEntries(tempUncheckedEntries);
-      this.uUncheckedEntries.splice(0, tempUncheckedEntries.length);
+      list.uUncheckedEntries.splice(0, tempUncheckedEntries.length);
     });
     if(!successful) {
       this.uncheckEntriesTimer = setTimeout(function(){list.transmitUncheckedEntries()}, retryInterval);
@@ -330,17 +338,22 @@ var list = {
   transmitDoneShopping: function(sum) {
     var successful = false;
     var jsonObject;
+    var tempCheckedEntries = this.uncheckedEntries;
+    var ids = new Array();
+    for (i in tempCheckedEntries) {
+      ids.push(tempCheckedEntries[i].id);
+    }
     jsonObject.sum = sum;
-    jsonObject.entries = this.checkedEntries;
+    jsonObject.ids = ids;
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
     var dataString = $.toJSON(jsonObject);
     $.post('../DoneShopping', {data: dataString}, function(res){
       successful = true;
-      clearTimeout(this.doneShoppingTimer);
-      this.doneShoppingTimer = 0;
-      this.checkedEntries.splice(0, jsonObject.entries.length);
+      clearTimeout(list.doneShoppingTimer);
+      list.doneShoppingTimer = 0;
+      list.checkedEntries.splice(0, tempCheckedEntries.length);
     });
     if(!successful) {
       this.doneShoppingTimer = setTimeout(function(){list.transmitDoneShopping(sum)}, retryInterval);

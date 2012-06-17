@@ -35,7 +35,7 @@
       </div>
       <div data-role="footer">
         <a href="#shopping">start shopping</a>
-        <a href="#add">add item</a>
+        <a href="#add" data-rel="dialog">add item</a>
 		<input class="jtest" type="button" value="TESTJSON">
       </div>
     </div>
@@ -53,6 +53,20 @@
           <input type="number" data-mini="true" style="width: 100px; color:#666666;" onfocus="if(this.value=='total sum'){this.value=''}" type="text" name="total sum" id="totalSum" value="total sum"/>
           <button data-mini="true">done shopping</button>
         </div>
+      </div>
+    </div>
+    
+    <div id="add" data-role="page">
+      <div data-role="header">
+        <h1>New item</h1>
+      </div>
+
+      <div data-role="content">
+        <input type="text" id="itemname" style="width: 100px; color:#666666;" onfocus="if(this.value=='item name'){this.value=''}" type="text" name="total sum" id="totalSum" value="item name"/>
+      </div>
+
+      <div data-role="footer">
+        <a href="#edit" data-rel="back" onclick="list.addEntry(document.getElementById('itemname').value)">Add</a>
       </div>
     </div>
   </body>
