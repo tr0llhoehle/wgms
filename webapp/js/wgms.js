@@ -269,7 +269,8 @@ var list = {
     //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->   
     for (i in tempAddedEntries) {
-      names.push(tempAddedEntries[i]);
+      names.push(tempAddedEntries[i].name);
+      alert(tempAddedEntries[i].name);
     }
     var dataString = $.toJSON(names);
     $.post('../AddEntries', {data: dataString}, function(res){
