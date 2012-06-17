@@ -594,7 +594,8 @@ $(function() {
     	if(data == "success") {
     		window.location = "#edit";
     	} else {
-    		alert("Login failed debug:"+data);
+        window.location = "#loginFail";
+    		//alert("Login failed debug:"+data);
     	}
      	//alert("Data Loaded: " + data);
    	});
