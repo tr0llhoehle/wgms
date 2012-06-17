@@ -131,6 +131,10 @@ var list = {
       this.transmitUncheckedEntries();
     }
   },
+  
+  doneShopping: function(sum) {
+    
+  }
 
   diffPoll: function() {
     //TODO: le magic
@@ -322,9 +326,55 @@ var list = {
       this.uncheckEntriesTimer = setTimeout(function(){list.transmitUncheckedEntries()}, retryInterval);
     }
   },
+
+  transmitDoneShopping: function(sum) {
+    var successful = false;
+    var jsonObject;
+    jsonObject.sum = sum;
+    jsonObject.entries = this.checkedEntries;
+    //TODO: Do the actual transmitting <-- ...
+    //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
+    //... -->
+    var jdata = $.toJSON(jsonObject);
+    var dataString = $.toJSON(jsonObject);
+    $.post('../DoneShopping', {data: dataString}, function(res){
+      successful = true;
+    });
+    if(successful) {
+      clearTimeout(this.doneShoppingTimer);
+      this.doneShoppingTimer = 0;
+      this.checkedEntries.splice(0, jsonObject.entries.length);
+    } else {
+      this.doneShoppingTimer = setTimeout(function(){list.transmitDoneShopping(sum)}, retryInterval);
+    } 
+  },
 }
 
 var animations = {
+  addEntriesFront: function(entries) {
+
+  },
+
+  addEntriesBack: function(entries) {
+
+  },
+
+  checkEntries: function(entries) {
+
+  },
+
+  uncheckEntries: function(entries) {
+
+  },
+
+  startTransmitting: function(entries, list) {
+
+  },
+
+  stopTransmitting: function(entries, list) {
+
+  },
+
   startTransmittingEntries: function(entries, list) {
     //TODO: doesn't work yet. :( 
     //Need an identification here that the transmitting is running...
