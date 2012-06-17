@@ -258,10 +258,17 @@ var list = {
   transmitDeletedEntries: function() {
     var successful = false;
     var tempDeletedEntries = this.deletedEntries;
+    var ids = new Array();
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
-    var dataString = $.toJSON(tempDeletedEntries);
+    for (i in tempDeletedEntries) {
+      names.push(tempDeletedEntries[i].id);
+    }
+    var obj = {
+      ids: ids 
+    }
+    var dataString = $.toJSON(obj);
     $.post('../DeleteEntries', {data: dataString}, function(res){
     	successful = true;
       clearTimeout(list.deletedEntriesTimer);
@@ -283,7 +290,10 @@ var list = {
     for (i in tempAddedEntries) {
       names.push(tempAddedEntries[i].name);
     }
-    var dataString = $.toJSON(names);
+    var obj = {
+      names: names 
+    }
+    var dataString = $.toJSON(obj);
     $.post('../AddEntries', {data: dataString}, function(res){
     	successful = true;
       clearTimeout(list.addEntriesTimer);
@@ -307,7 +317,7 @@ var list = {
     //successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
     for (i in tempCheckedEntries) {
-      alert("sending id: " + tempCheckedEntries[i].id);
+      //alert("sending id: " + tempCheckedEntries[i].id);
       ids.push(tempCheckedEntries[i].id);
     }
     var obj = {
@@ -317,7 +327,7 @@ var list = {
     alert("JSONized datastring: " + dataString);
     $.post('../CheckEntries', {data: dataString}, function(res){
     	successful = true;
-      clearTimeout(this.checkEntriesTimer);
+      clearTimeout(list.checkEntriesTimer);
       list.checkEntriesTimer = 0;
       list.checkedEntries = list.checkedEntries.concat(tempCheckedEntries);
       animations.addCheckedEntries(tempCheckedEntries);
@@ -338,10 +348,13 @@ var list = {
     for (i in tempUncheckedEntries) {
       ids.push(tempUncheckedEntries[i].id);
     }
-    var dataString = $.toJSON(tempUncheckedEntries);
+    var obj = {
+      ids: ids
+    }
+    var dataString = $.toJSON(obj);
     $.post('../UncheckEntries', {data: dataString}, function(res){
     	successful = true;
-      clearTimeout(this.uncheckEntriesTimer);
+      clearTimeout(list.uncheckEntriesTimer);
       list.uncheckEntriesTimer = 0;
       list.uncheckedEntries = list.uncheckedEntries.concat(tempUncheckedEntries);
       animations.addUncheckedEntries(tempUncheckedEntries);
