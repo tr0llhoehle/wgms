@@ -47,6 +47,12 @@ var list = {
 
   addEntry: function(name) {
     this.addedEntries.push(new ListEntry(this.nextId, name));
+    var newUiEl = '<li data-icon="check" id="' + this.nextId + '"><a>' + name + '</a></li>';
+    $('#shoppingListView').prepend(newUiEl);
+    $('#editListView').prepend(newUiEl);
+    $('shoppingListView').listview('refresh');
+    $('editListView').listview('refresh');
+
     this.nextId -= 1;
     if(this.addEntriesTimer == 0) {
       this.transmitAddedEntries();
