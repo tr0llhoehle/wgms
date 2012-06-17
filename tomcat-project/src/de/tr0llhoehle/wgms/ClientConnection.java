@@ -7,6 +7,9 @@ import java.util.Queue;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ClientConnection implements Serializable, HttpSessionBindingListener {
 	
 	protected ShoppingList shoppingList;
@@ -14,7 +17,7 @@ public class ClientConnection implements Serializable, HttpSessionBindingListene
 	protected boolean online;
 	
 	public ClientConnection() {
-		this.updateQueue = new LinkedList<String>();
+		this.updateQueue = new LinkedList<JSONObject>();
 		this.online = false;
 	}
 	
@@ -30,13 +33,20 @@ public class ClientConnection implements Serializable, HttpSessionBindingListene
 		this.shoppingList = list;
 	}
 	
-	public String flushQueue() {
-		//TODO build JSON String from queue entries
-		return null;
+	public ShoppingList getList() {
+		return this.shoppingList;
+	}
+	
+	public JSONArray flushQueue() {
+		JSONArray tmp = new JSONArray();
+		while (!this.updateQueue.isEmpty()) {
+			tmp.put(updateQueue.remove());
+		}
+		return tmp;
 	}
 	
 	public void addListChange(Item item) {
-		//TODO add change-String (JSON?) to the queue
+		this.updateQueue.add(item.toJSONObject());		
 	}
 
 	@Override

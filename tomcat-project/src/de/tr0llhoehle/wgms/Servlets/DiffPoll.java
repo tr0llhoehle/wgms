@@ -1,6 +1,8 @@
 package de.tr0llhoehle.wgms.Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,19 +46,10 @@ public class DiffPoll extends HttpServlet {
 		if(!session.isNew()) {
 			ClientConnection client = (ClientConnection) session.getAttribute("clientInfo");
 			if (client != null) {
-				String data = request.getParameter("data");
-				try {
-					
-					/*data = data.substring(1, data.length()-1);
-					
-					data = data.replaceAll("\"", "");
-					data = data.replace("\\", "");*/
-					JSONArray jsonArray = new JSONArray(data);
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				PrintWriter out = response.getWriter();
+				JSONArray jsonArray = client.flushQueue();
+				System.out.println(jsonArray.toString());
+				out.write(jsonArray.toString());
 			} else {
 				response.sendRedirect(LocationList.LOGINPAGE);
 			}
