@@ -44,8 +44,8 @@ public class ShoppingList {
 	}
 
 	public synchronized void checkItem(ClientConnection fromCLient, int id) {
-		for(Item item :this.list) {
-			if(id == item.getId()) {
+		for (Item item : this.list) {
+			if (id == item.getId()) {
 				if (item.getState() == 2) {
 					item.setState(1);
 					addChangeToQueue(fromCLient, item);
@@ -55,8 +55,8 @@ public class ShoppingList {
 	}
 
 	public synchronized void uncheckItem(ClientConnection fromCLient, int id) {
-		for(Item item :this.list) {
-			if(id == item.getId()) {
+		for (Item item : this.list) {
+			if (id == item.getId()) {
 				if (item.getState() == 1) {
 					item.setState(2);
 					addChangeToQueue(fromCLient, item);
@@ -65,15 +65,16 @@ public class ShoppingList {
 		}
 	}
 
-	public synchronized void addItem(ClientConnection fromCLient, String name) {
+	public synchronized int addItem(ClientConnection fromCLient, String name) {
 		Item item = new Item(name, this.id++, 2);
 		this.addListItem(item);
 		this.addChangeToQueue(fromCLient, item);
+		return this.id - 1;
 	}
 
 	public synchronized void deleteItem(ClientConnection fromCLient, int id) {
-		for(Item item :this.list) {
-			if(id == item.getId()) {
+		for (Item item : this.list) {
+			if (id == item.getId()) {
 				if (item.getState() != 3) {
 					item.setState(3);
 					addChangeToQueue(fromCLient, item);
