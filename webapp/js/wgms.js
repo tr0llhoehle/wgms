@@ -418,11 +418,10 @@ function initialiseListView() {
 }
 
 $(window).load(function(){
-  list.addEntry("le cake");
-  list.addEntry("it is a lie");
-  list.addEntry("FLAUSCHFLAUSCH");
-  list.addEntry("Flawwwwwwssssscchhzzz");
-  list.initialRequest();
+  //list.addEntry("le cake");
+  //list.addEntry("it is a lie");
+  //list.addEntry("FLAUSCHFLAUSCH");
+  //list.addEntry("Flawwwwwwssssscchhzzz");
 	//edit
 	var editparent = document.getElementById('editcontent');
     editListView = document.createElement('ul');
@@ -440,6 +439,7 @@ $(window).load(function(){
     //populateListView(listview,'troll-blank');
     
     initialiseListView();
+    list.initialRequest();
 
     $('shoppingListView').listview();
     $('shoppingListView').listview('refresh');
