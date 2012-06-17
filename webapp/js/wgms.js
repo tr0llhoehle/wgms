@@ -272,8 +272,8 @@ var list = {
     	successful = true;
       clearTimeout(this.addEntriesTimer);
       this.addEntriesTimer = 0;
+      var serverIds = $.parseJSON(res); //TODO: DOES IT WORK? O_O
       for(var i = 0; i < tempAddedEntries.length; ++i) {
-        var serverIds = $.parseJSON(res); //TODO: DOES IT WORK? O_O
         this.uncheckedEntries.push(new ListEntry(serverIds[i], tempAddedEntries[i].name));
       }
       this.addedEntries.splice(0, tempAddedEntries.length);
@@ -462,10 +462,10 @@ function initialiseListView() {
 }
 
 $(window).load(function(){
-  list.addEntry("le cake");
+  /*list.addEntry("le cake");
   list.addEntry("it is a lie");
   list.addEntry("FLAUSCHFLAUSCH");
-  list.addEntry("Flawwwwwwssssscchhzzz");
+  list.addEntry("Flawwwwwwssssscchhzzz");*/
 	//edit
 	var editparent = document.getElementById('editcontent');
     editListView = document.createElement('ul');
