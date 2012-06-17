@@ -348,7 +348,7 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement getList = c
-					.prepareStatement("SELECT item_id, description FROM items WHERE shopping_list_id = ? AND purchase_id = null");
+					.prepareStatement("SELECT item_id, description FROM items WHERE shopping_list_id = ? AND purchase_id IS NULL");
 			getList.setString(1, listId.trim());
 			getList.executeQuery();
 			ResultSet result = getList.executeQuery();
