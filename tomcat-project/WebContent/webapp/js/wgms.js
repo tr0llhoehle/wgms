@@ -105,7 +105,7 @@ var list = {
     }
     if(done) {
       this.uCheckedEntries.push(entry);
-      animations.startTransmittingEntries([entry]);
+      //animations.startTransmittingEntries([entry]);
       this.transmitCheckedEntries();
     }
   },
@@ -134,7 +134,7 @@ var list = {
     }
     if(done) {
       this.uUncheckedEntries.push(entry);
-      animations.startTransmittingEntries([entry]);
+      //animations.startTransmittingEntries([entry]);
       this.transmitUncheckedEntries();
     }
   },
