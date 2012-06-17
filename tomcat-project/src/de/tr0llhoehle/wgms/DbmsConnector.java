@@ -1,5 +1,6 @@
 package de.tr0llhoehle.wgms;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -346,7 +347,7 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement getList = c
-					.prepareStatement("SELECT item_id, description FROM items WHERE shopping_list_id = ?");
+					.prepareStatement("SELECT item_id, description FROM items WHERE shopping_list_id = ? AND purchase_id = null");
 			getList.setString(1, listId.trim());
 			getList.executeQuery();
 			ResultSet result = getList.executeQuery();
@@ -365,6 +366,57 @@ public class DbmsConnector {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void shoppingDone(String username, int shoppingListId, BigDecimal value) {
+		this.shoppingDone(username, String.valueOf(shoppingListId), value);
+	}
+
+	public void shoppingDone(String username, String shoppingListId, BigDecimal value) {
+		if (username == null || username.trim().equals("")
+				|| shoppingListId == null || shoppingListId.trim().equals("")
+				|| !connected) {
+			return;
+		}
+
+		try {
+			PreparedStatement createPurchase = c
+					.prepareStatement("INSERT INTO purchases (value, user_id)VALUES (? ,SELECT user_id FROM users WHERE username = ?)");
+			createPurchase.setBigDecimal(1, value);
+			createPurchase.setString(2, username.trim());
+
+			createPurchase.executeUpdate();
+			ResultSet result = createPurchase.getGeneratedKeys();
+			int autoIncValue = -1;
+
+			if (result.next()) {
+				//get created key
+				autoIncValue = result.getInt("purchase_id");
+				
+				//update items
+				PreparedStatement updateItems = c
+						.prepareStatement("UPDATE items SET purchase_id= ? WHERE shopping_list_id = ? AND purchases NOT null");
+				updateItems.setString(1, String.valueOf(autoIncValue));
+				updateItems.setString(2, shoppingListId.trim());
+
+				updateItems.executeUpdate();
+				
+				
+
+			} else {
+				//something very wrong
+				return;
+			}
+
+			
+			// getChecked.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+
 	}
 
 }
