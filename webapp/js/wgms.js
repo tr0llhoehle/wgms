@@ -140,9 +140,17 @@ var list = {
     $.post('../InitialRequest', {data: dataString}, function(res){
     	var jdata = $.parseJSON(res);
     	for(var i=0; i<jdata.length; i++) {
+    		if(jdata[i].state == 0) {
+    			list.addedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    		}
+    		if(jdata[i].state == 1) {
+    			list.checkedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    		}
     		if(jdata[i].state == 2) {
-    			alert("ifstate:"+jdata[i].state+" id"+jdata[i].id);
-    			this.uncheckedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    			list.uncheckedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
+    		}
+    		if(jdata[i].state == 3) {
+    			list.deletedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     		}
     		/*switch(jdata[i].state) {
     			case "0":
