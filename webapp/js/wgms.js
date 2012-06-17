@@ -154,8 +154,7 @@ var list = {
     				this.deletedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
     				break;
     		}
-    	}
-    	alert(jdata[0].name);});
+    	}});
   },
 
   transmitDeletedEntries: function() {
