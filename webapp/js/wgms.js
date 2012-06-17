@@ -270,7 +270,6 @@ var list = {
     //... -->   
     for (i in tempAddedEntries) {
       names.push(tempAddedEntries[i].name);
-      alert(tempAddedEntries[i].name);
     }
     var dataString = $.toJSON(names);
     $.post('../AddEntries', {data: dataString}, function(res){
