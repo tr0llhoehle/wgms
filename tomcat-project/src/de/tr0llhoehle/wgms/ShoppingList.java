@@ -1,10 +1,11 @@
 package de.tr0llhoehle.wgms;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 
-public class ShoppingList {
+public class ShoppingList implements Serializable {
 
 	protected ArrayList<ClientConnection> attachedClients;
 	protected ArrayList<Item> list;
@@ -21,6 +22,12 @@ public class ShoppingList {
 	public ShoppingList() {
 		this.attachedClients = new ArrayList<ClientConnection>();
 		this.list = new ArrayList<Item>();
+		
+		this.list.add(new Item("The", this.id++, 2));
+		this.list.add(new Item("Cake", this.id++, 2));
+		this.list.add(new Item("Is", this.id++, 2));
+		this.list.add(new Item("A", this.id++, 2));
+		this.list.add(new Item("Lie", this.id++, 2));
 	}
 
 	public synchronized void addClient(ClientConnection client) {

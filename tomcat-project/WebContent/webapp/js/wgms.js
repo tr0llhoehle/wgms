@@ -83,6 +83,7 @@ var list = {
   //uUncheckedEntries to the uCheckedEntries-Array and start the sync
   //with the server.
   checkEntry: function(id) {
+console.log("check " + id);
     var entry;
     var done = false;
     for(var i = 0; i < this.uncheckedEntries.length; ++i) {
@@ -554,8 +555,8 @@ $(window).load(function(){
 
   $('#shoppingListView').on('click', 'li', function() {
     var uiId = $(this).attr('id');
-
-    list.checkEntry(uiId.substr(3, uiId.length-3));
+console.log(uiId);
+    list.checkEntry(uiId.substr(4, uiId.length-4));
 /*        $(this).parent().addClass("ui-icon-check"); 
         $(this).parent().removeClass("ui-icon-troll-blank");
 

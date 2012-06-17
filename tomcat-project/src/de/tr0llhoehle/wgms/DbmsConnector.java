@@ -23,8 +23,8 @@ public class DbmsConnector {
 	// private static final String USER = "troll";
 	// private static final String PASS = "troll";
 
-	private static final String USER = "wgms";
-	private static final String PASS = "heZ7ayGBYsFKxsVj";
+	private static final String USER = "root";
+	private static final String PASS = "";
 
 	private static boolean connected = false;
 	private Connection c = null;

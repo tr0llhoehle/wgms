@@ -53,9 +53,9 @@ public class DoneShopping extends HttpServlet {
 				JSONArray jsonSendArray = new JSONArray();
 				try {
 					jsonObject = new JSONObject(data);
-					jsonArray = new JSONArray(jsonObject.get("ids"));
+					//jsonArray = new JSONArray(jsonObject.get("ids"));
 					int sum = jsonObject.getInt("sum");
-
+					System.out.println("sum: " + sum);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

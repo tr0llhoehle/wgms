@@ -48,7 +48,7 @@ public class DiffPoll extends HttpServlet {
 			if (client != null) {
 				PrintWriter out = response.getWriter();
 				JSONArray jsonArray = client.flushQueue();
-				System.out.println(jsonArray.toString());
+				//System.out.println(jsonArray.toString());
 				out.write(jsonArray.toString());
 			} else {
 				response.sendRedirect(LocationList.LOGINPAGE);

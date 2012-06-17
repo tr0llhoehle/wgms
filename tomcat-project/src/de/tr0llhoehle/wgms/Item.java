@@ -1,9 +1,11 @@
 package de.tr0llhoehle.wgms;
 
+import java.io.Serializable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Item {
+public class Item implements Serializable{
 
 	protected String name;
 	protected int id;

@@ -48,13 +48,16 @@ public class CheckEntries extends HttpServlet {
 			ClientConnection client = (ClientConnection) session.getAttribute("clientInfo");
 			if (client != null) {
 				String data = request.getParameter("data");
+				System.out.println("check ids: " + data);
 				JSONArray jsonArray;
 				JSONArray jsonSendArray = new JSONArray();
 				try {
-					jsonArray = new JSONArray(data);
-
+					
+					JSONObject object = new JSONObject(data);
+					jsonArray = (JSONArray) object.get("ids");
 					for (int i = 0; i < jsonArray.length(); i++) {
 						int id = jsonArray.getInt(i);
+						System.out.println(id);
 						client.getList().checkItem(client, id);
 					}
 				} catch (JSONException e) {

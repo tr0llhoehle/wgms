@@ -48,46 +48,8 @@ public class InitialRequest extends HttpServlet {
 			ClientConnection client = (ClientConnection) session.getAttribute("clientInfo");
 			if (client != null) {
 				PrintWriter out = response.getWriter();
-				JSONObject tmp;
-				JSONArray jsonArray = new JSONArray();
-				tmp = new JSONObject();
-				try {
-					tmp.append("name", "The");
-					tmp.append("id", 0);
-					tmp.append("state", 2);
-					jsonArray.put(tmp);
-					
-					tmp = new JSONObject();
-					
-					tmp.append("name", "Cake");
-					tmp.append("id", 1);
-					tmp.append("state", 2);
-					jsonArray.put(tmp);
-					
-					tmp = new JSONObject();
-					
-					tmp.append("name", "Is");
-					tmp.append("id", 2);
-					tmp.append("state", 2);
-					jsonArray.put(tmp);
-					
-					tmp = new JSONObject();
-					
-					tmp.append("name", "A");
-					tmp.append("id", 3);
-					tmp.append("state", 2);
-					jsonArray.put(tmp);
-					
-					tmp = new JSONObject();
-					
-					tmp.append("name", "Lie");
-					tmp.append("id", 4);
-					tmp.append("state", 2);
-					jsonArray.put(tmp);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				JSONArray jsonArray = client.getList().toJSONArray();
+				
 				System.out.println(jsonArray.toString());
 				out.write(jsonArray.toString());
 			} else {
