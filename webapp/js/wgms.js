@@ -135,7 +135,11 @@ var list = {
   },
   
   initialRequest: function() {
+  	var dataString = "";
     //TODO le small magic
+    $.post('../InitialRequest', {data: dataString}, function(res){
+    	var jdata = $.parseJSON(res);
+    	alert(jdata);});
   },
 
   transmitDeletedEntries: function() {
