@@ -121,6 +121,10 @@ public class DbmsConnector {
 		return null;
 	}
 
+	public synchronized void checkItem(int id) {
+		this.checkItem(String.valueOf(id));
+	}
+
 	public synchronized void checkItem(String itemId) {
 		if (itemId == null || itemId.trim().equals("") || !connected) {
 			return;
@@ -128,7 +132,7 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement checkItem = c
-					.prepareStatement("UPDATE items SET checked 1 WHERE item_id EQUALS ?");
+					.prepareStatement("UPDATE items SET checked = 1 WHERE item_id = ?");
 			checkItem.setString(1, itemId.trim());
 			checkItem.executeUpdate();
 			checkItem.close();
@@ -139,6 +143,10 @@ public class DbmsConnector {
 
 		}
 
+	}
+
+	public synchronized void uncheckItem(int id) {
+		this.uncheckItem(String.valueOf(id));
 	}
 
 	public synchronized void uncheckItem(String itemId) {
@@ -148,7 +156,7 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement checkItem = c
-					.prepareStatement("UPDATE items SET checked 0 WHERE item_id EQUALS ?");
+					.prepareStatement("UPDATE items SET checked = 0 WHERE item_id = ?");
 			checkItem.setString(1, itemId.trim());
 			checkItem.executeUpdate();
 			checkItem.close();
@@ -161,8 +169,12 @@ public class DbmsConnector {
 
 	}
 
-	public synchronized void insertItem(String description, String shoppingListId,
-			String userName) {
+	public synchronized void insertItem(String description,
+			int shoppingListId, String userName) {
+		this.insertItem(description, String.valueOf(shoppingListId), userName);
+	}
+	public synchronized void insertItem(String description,
+			String shoppingListId, String userName) {
 		if (shoppingListId == null || shoppingListId.trim().equals("")
 				|| description == null || description.trim().equals("")
 				|| !connected) {
@@ -171,7 +183,7 @@ public class DbmsConnector {
 
 		try {
 			PreparedStatement checkItem = c
-					.prepareStatement("INSERT INTO items Values(null,?,?,null,'0', (SELECT userid FROM users WHERE username = ?),null)");
+					.prepareStatement("INSERT INTO items Values(null,?,?,null,'0', (SELECT user_id FROM users WHERE username = ?),null)");
 			checkItem.setString(1, description);
 			checkItem.setString(2, shoppingListId);
 			checkItem.setString(3, userName);
@@ -215,12 +227,44 @@ public class DbmsConnector {
 		return null;
 	}
 
+	public synchronized boolean isItemChecked(int id) {
+		return this.isItemChecked(String.valueOf(id));
+
+	}
+
+	public synchronized boolean isItemChecked(String itemID) {
+		if (itemID == null || itemID.trim().equals("") || !connected) {
+			return false;
+		}
+		boolean isChecked = false;
+		try {
+			PreparedStatement getChecked = c
+					.prepareStatement("SELECT checked FROM items WHERE item_id = ?");
+			getChecked.setString(1, itemID.trim());
+			ResultSet result = getChecked.executeQuery();
+
+			while (result.next()) {
+				isChecked = result.getBoolean("checked");
+			}
+
+			getChecked.close();
+			return isChecked;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		return isChecked;
+
+	}
+
 	public synchronized ArrayList<TempShoppingListItem> getListsItems(int listId) {
 		String id = String.valueOf(listId);
 		return this.getListsItems(id);
 	}
-	
-	public synchronized ArrayList<TempShoppingListItem> getListsItems(String listId) {
+
+	public synchronized ArrayList<TempShoppingListItem> getListsItems(
+			String listId) {
 
 		if (listId == null || listId.trim().equals("") || !connected) {
 			return null;
