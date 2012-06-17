@@ -139,7 +139,7 @@ var list = {
     //TODO le small magic
     $.post('../InitialRequest', {data: dataString}, function(res){
     	var jdata = $.parseJSON(res);
-    	for(var i=0; i<jdate.length; i++) {
+    	for(var i=0; i<jdata.length; i++) {
     		switch(jdata[i].state) {
     			case 0:
     				this.addedEntries.push(new ListEntry(jdata[i].id, jdata[i].name));
