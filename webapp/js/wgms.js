@@ -591,7 +591,7 @@ $(function() {
     var pw = $("input#password").val();  
     $.post("../Login", { name: pname, password:pw },
     function(data) {
-     	alert("Data Loaded: " + data);
+     	//alert("Data Loaded: " + data);
    	});
     window.location = "#edit";
   });  
