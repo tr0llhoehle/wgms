@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import de.tr0llhoehle.wgms.ClientConnection;
+import de.tr0llhoehle.wgms.ShoppingList;
 import de.tr0llhoehle.wgms.structs.LocationList;
 
 /**
@@ -44,6 +45,8 @@ public class Login extends HttpServlet {
 		if (this.verifyUser(username, password)) {
 			ClientConnection clientInfo = new ClientConnection();
 			//TODO add shopping List to client
+			clientInfo.setList(ShoppingList.getInstance());
+			ShoppingList.getInstance().addClient(clientInfo);
 			session.setAttribute("clientInfo", clientInfo);
 		}
 	}

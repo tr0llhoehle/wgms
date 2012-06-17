@@ -26,8 +26,8 @@ public class ClientConnection implements Serializable, HttpSessionBindingListene
 		return this.online;
 	}
 	
-	public void selectList(String listID) {
-		
+	public void setList(ShoppingList list) {
+		this.shoppingList = list;
 	}
 	
 	public String flushQueue() {
@@ -47,8 +47,7 @@ public class ClientConnection implements Serializable, HttpSessionBindingListene
 
 	@Override
 	public void valueUnbound(HttpSessionBindingEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		this.shoppingList.removeClient(this);		
 	}
 	
 
