@@ -591,9 +591,13 @@ $(function() {
     var pw = $("input#password").val();  
     $.post("../Login", { name: pname, password:pw },
     function(data) {
+    	if(data == "success") {
+    		window.location = "#edit";
+    	} else {
+    		alert("Login failed debug:"+data);
+    	}
      	//alert("Data Loaded: " + data);
    	});
-    window.location = "#edit";
   });  
 });  
 
