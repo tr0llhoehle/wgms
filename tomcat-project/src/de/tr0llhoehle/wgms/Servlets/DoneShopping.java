@@ -1,6 +1,8 @@
 package de.tr0llhoehle.wgms.Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import de.tr0llhoehle.wgms.ClientConnection;
 import de.tr0llhoehle.wgms.structs.LocationList;
@@ -45,18 +48,27 @@ public class DoneShopping extends HttpServlet {
 			ClientConnection client = (ClientConnection) session.getAttribute("clientInfo");
 			if (client != null) {
 				String data = request.getParameter("data");
+				JSONArray jsonArray;
+				JSONObject jsonObject;
+				JSONArray jsonSendArray = new JSONArray();
 				try {
-					
-/*data = data.substring(1, data.length()-1);
-					
-					data = data.replaceAll("\"", "");
-					data = data.replace("\\", "");*/
-					JSONArray jsonArray = new JSONArray(data);
-					
+					jsonObject = new JSONObject(data);
+					jsonArray = new JSONArray(jsonObject.get("ids"));
+					int sum = jsonObject.getInt("sum");
+
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				PrintWriter out = response.getWriter();
+				/*
+				 * data = data.substring(1, data.length()-1);
+				 * 
+				 * data = data.replaceAll("\"", ""); data = data.replace("\\",
+				 * "");
+				 */
+				out.write(jsonSendArray.toString());
 			} else {
 				response.sendRedirect(LocationList.LOGINPAGE);
 			}

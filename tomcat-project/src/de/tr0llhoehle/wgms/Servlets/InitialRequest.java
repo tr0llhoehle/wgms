@@ -54,14 +54,14 @@ public class InitialRequest extends HttpServlet {
 				try {
 					tmp.append("name", "The");
 					tmp.append("id", 0);
-					tmp.append("state", 0);
+					tmp.append("state", 2);
 					jsonArray.put(tmp);
 					
 					tmp = new JSONObject();
 					
 					tmp.append("name", "Cake");
 					tmp.append("id", 1);
-					tmp.append("state", 1);
+					tmp.append("state", 2);
 					jsonArray.put(tmp);
 					
 					tmp = new JSONObject();
@@ -75,14 +75,14 @@ public class InitialRequest extends HttpServlet {
 					
 					tmp.append("name", "A");
 					tmp.append("id", 3);
-					tmp.append("state", 4);
+					tmp.append("state", 2);
 					jsonArray.put(tmp);
 					
 					tmp = new JSONObject();
 					
 					tmp.append("name", "Lie");
 					tmp.append("id", 4);
-					tmp.append("state", 0);
+					tmp.append("state", 2);
 					jsonArray.put(tmp);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

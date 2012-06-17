@@ -47,6 +47,12 @@ var list = {
 
   addEntry: function(name) {
     this.addedEntries.push(new ListEntry(this.nextId, name));
+    var newUiEl = '<li data-icon="check" id="' + this.nextId + '"><a>' + name + '</a></li>';
+    $('#shoppingListView').prepend(newUiEl);
+    $('#editListView').prepend(newUiEl);
+    $('shoppingListView').listview('refresh');
+    $('editListView').listview('refresh');
+
     this.nextId -= 1;
     if(this.addEntriesTimer == 0) {
       this.transmitAddedEntries();
@@ -337,14 +343,15 @@ var list = {
 
   transmitDoneShopping: function(sum) {
     var successful = false;
-    var jsonObject;
     var tempCheckedEntries = this.uncheckedEntries;
     var ids = new Array();
     for (i in tempCheckedEntries) {
       ids.push(tempCheckedEntries[i].id);
     }
-    jsonObject.sum = sum;
-    jsonObject.ids = ids;
+    var jsonObject = {
+      sum: sum,
+      ids: ids,
+    }
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->

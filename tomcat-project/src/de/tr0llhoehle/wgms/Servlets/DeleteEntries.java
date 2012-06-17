@@ -1,6 +1,8 @@
 package de.tr0llhoehle.wgms.Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,18 +47,28 @@ public class DeleteEntries extends HttpServlet {
 			ClientConnection client = (ClientConnection) session.getAttribute("clientInfo");
 			if (client != null) {
 				String data = request.getParameter("data");
+				JSONArray jsonArray;
+				JSONArray jsonSendArray = new JSONArray();
 				try {
-					
-/*data = data.substring(1, data.length()-1);
-					
-					data = data.replaceAll("\"", "");
-					data = data.replace("\\", "");*/
-					JSONArray jsonArray = new JSONArray(data);
-					
+					jsonArray = new JSONArray(data);
+
+					for (int i = 0; i < jsonArray.length(); i++) {
+						int id = jsonArray.getInt(i);
+						client.getList().deleteItem(client, id);
+					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				PrintWriter out = response.getWriter();
+				/*
+				 * data = data.substring(1, data.length()-1);
+				 * 
+				 * data = data.replaceAll("\"", ""); data = data.replace("\\",
+				 * "");
+				 */
+				out.write(jsonSendArray.toString());
 			} else {
 				response.sendRedirect(LocationList.LOGINPAGE);
 			}
