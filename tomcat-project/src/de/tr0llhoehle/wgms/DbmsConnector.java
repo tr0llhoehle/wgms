@@ -20,8 +20,13 @@ public class DbmsConnector {
 
 	// database = wgms
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/wgms";
-	private static final String USER = "troll";
-	private static final String PASS = "troll";
+//	private static final String USER = "troll";
+//	private static final String PASS = "troll";
+	
+	
+	private static final String USER = "wgms";
+	private static final String PASS = "heZ7ayGBYsFKxsVj";
+	
 
 	private static boolean connected = false;
 	private Connection c = null;
