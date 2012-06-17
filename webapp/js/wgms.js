@@ -249,8 +249,7 @@ var list = {
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->
-    var jdata = $.toJSON(tempDeletedEntries);
-    var dataString = $.toJSON(jdata);
+    var dataString = $.toJSON(tempDeletedEntries);
     $.post('../DeleteEntries', {data: dataString}, function(res){
     	successful = true;});
     if(successful) {
@@ -268,8 +267,7 @@ var list = {
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of created entries to the server.\nSuccess?");
     //... -->   
-    var jdata = $.toJSON(tempAddedEntries);
-    var dataString = $.toJSON(jdata);
+    var dataString = $.toJSON(tempAddedEntries);
     $.post('../AddEntries', {data: dataString}, function(res){
     	successful = true;});
     if(successful) {
@@ -291,8 +289,7 @@ var list = {
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
-    var jdata = $.toJSON(tempCheckedEntries);
-    var dataString = $.toJSON(jdata);
+    var dataString = $.toJSON(tempCheckedEntries);
     $.post('../CheckEntries', {data: dataString}, function(res){
     	successful = true;});
     if(successful) {
@@ -312,8 +309,7 @@ var list = {
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
-    var jdata = $.toJSON(tempUncheckedEntries);
-    var dataString = $.toJSON(jdata);
+    var dataString = $.toJSON(tempUncheckedEntries);
     $.post('../UncheckEntries', {data: dataString}, function(res){
     	successful = true;});
     if(successful) {
@@ -335,7 +331,6 @@ var list = {
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
-    var jdata = $.toJSON(jsonObject);
     var dataString = $.toJSON(jsonObject);
     $.post('../DoneShopping', {data: dataString}, function(res){
       successful = true;
@@ -581,7 +576,7 @@ $(function() {
     test[1] = 456;
     test[2] = 789;
                 
-    var jdata = $.toJSON(test);
+    var dataString = $.toJSON(test);
     //alert(data);
                                 
     /*$.post("../TestServlet", { 'data': data },
@@ -597,7 +592,7 @@ $(function() {
         }).done(function ( retdata ) { 
                 alert("Data Loaded: " + retdata);});
         });*/
-        var dataString = $.toJSON(jdata);
+        var dataString = $.toJSON(test);
         $.post('../TestServlet', {data: dataString}, function(res){
         alert(res);});
   });
