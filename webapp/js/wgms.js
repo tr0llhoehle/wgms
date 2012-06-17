@@ -337,14 +337,15 @@ var list = {
 
   transmitDoneShopping: function(sum) {
     var successful = false;
-    var jsonObject;
     var tempCheckedEntries = this.uncheckedEntries;
     var ids = new Array();
     for (i in tempCheckedEntries) {
       ids.push(tempCheckedEntries[i].id);
     }
-    jsonObject.sum = sum;
-    jsonObject.ids = ids;
+    var jsonObject = {
+      sum: sum,
+      ids: ids,
+    }
     //TODO: Do the actual transmitting <-- ...
     //successful = confirm("Simulate transmission of newly unchecked entries to the server.\nSuccess?");
     //... -->
