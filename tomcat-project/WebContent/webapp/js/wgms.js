@@ -311,6 +311,7 @@ var list = {
       ids.push(tempCheckedEntries[i].id);
     }
     var dataString = $.toJSON(ids);
+    alert("JSONized datastring: " + dataString);
     $.post('../CheckEntries', {data: dataString}, function(res){
     	successful = true;
       clearTimeout(this.checkEntriesTimer);
