@@ -132,6 +132,49 @@ var list = {
 
   diffPoll: function() {
     //TODO: le magic
+    var dataString = "";
+    //TODO le small magic
+    $.post('../DiffPoll', {data: dataString}, function(res){
+    	var jdata = $.parseJSON(res);
+    	for(var i=0; i<jdata.length; i++) {
+    		/*if(jdata[i].state == 0) {
+    			list.addedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    		}*/
+    		if(jdata[i].state == 1) {
+    			for(var j=0; j<list.uncheckedEntries.length; j++) {
+    				if(list.uncheckedEntries[j].id == jdata[i].id[0]) {
+    					list.uncheckedEntries.splice(j,1);
+    					break;
+    				}
+    			}    			
+    			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    		}
+    		if(jdata[i].state == 2) {
+    			for(var j=0; j<list.checkedEntries.length; j++) {
+    				if(list.checkedEntries[j].id == jdata[i].id[0]) {
+    					list.checkedEntries.splice(j,1);
+    					break;
+    				}
+    			}    			
+    			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    		}
+    		if(jdata[i].state == 3) {
+    			for(var j=0; j<list.uncheckedEntries.length; j++) {
+    				if(list.uncheckedEntries[j].id == jdata[i].id[0]) {
+    					list.uncheckedEntries.splice(j,1);
+    					break;
+    				}
+    			}
+    			for(var j=0; j<list.checkedEntries.length; j++) {
+    				if(list.checkedEntries[j].id == jdata[i].id[0]) {
+    					list.checkedEntries.splice(j,1);
+    					break;
+    				}
+    			}
+    			list.deletedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    		}
+    	}
+    	});
   },
   
   initialRequest: function() {
