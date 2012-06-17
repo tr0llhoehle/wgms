@@ -146,30 +146,45 @@ var list = {
     			for(var j=0; j<list.uncheckedEntries.length; j++) {
     				if(list.uncheckedEntries[j].id == jdata[i].id[0]) {
     					list.uncheckedEntries.splice(j,1);
+    					//'#sli'+id
+    					$('#sli'+jdata[i].id[0]).remove();
+    					$('#eli'+jdata[i].id[0]).remove();
     					break;
     				}
     			}    			
     			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    			var newUiEl = '<li data-icon="check" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			$('#shoppingListView').append(newUiEl)
+    			$('#editListView').append(newUiEl)		
     		}
     		if(jdata[i].state == 2) {
     			for(var j=0; j<list.checkedEntries.length; j++) {
     				if(list.checkedEntries[j].id == jdata[i].id[0]) {
     					list.checkedEntries.splice(j,1);
+    					$('#sli'+jdata[i].id[0]).remove();
+    					$('#eli'+jdata[i].id[0]).remove();
     					break;
     				}
     			}    			
     			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    			var newUiEl = '<li data-icon="troll-blank" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			$('#shoppingListView').append(newUiEl)
+    			$('#editListView').append(newUiEl)	
     		}
     		if(jdata[i].state == 3) {
     			for(var j=0; j<list.uncheckedEntries.length; j++) {
     				if(list.uncheckedEntries[j].id == jdata[i].id[0]) {
     					list.uncheckedEntries.splice(j,1);
+    					$('#sli'+jdata[i].id[0]).remove();
+    					$('#eli'+jdata[i].id[0]).remove();
     					break;
     				}
     			}
     			for(var j=0; j<list.checkedEntries.length; j++) {
     				if(list.checkedEntries[j].id == jdata[i].id[0]) {
     					list.checkedEntries.splice(j,1);
+    					$('#sli'+jdata[i].id[0]).remove();
+    					$('#eli'+jdata[i].id[0]).remove();
     					break;
     				}
     			}
@@ -187,12 +202,21 @@ var list = {
     	for(var i=0; i<jdata.length; i++) {
     		if(jdata[i].state == 0) {
     			list.addedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    			var newUiEl = '<li data-icon="troll-blank" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			$('#shoppingListView').prepend(newUiEl)
+    			$('#editListView').prepend(newUiEl)
     		}
     		if(jdata[i].state == 1) {
     			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    			var newUiEl = '<li data-icon="check" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			$('#shoppingListView').append(newUiEl)
+    			$('#editListView').append(newUiEl)
     		}
     		if(jdata[i].state == 2) {
     			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
+    			var newUiEl = '<li data-icon="troll-blank" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			$('#shoppingListView').prepend(newUiEl)
+    			$('#editListView').prepend(newUiEl)
     		}
     		if(jdata[i].state == 3) {
     			list.deletedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
