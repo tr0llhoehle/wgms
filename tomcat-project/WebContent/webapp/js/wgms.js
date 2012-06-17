@@ -105,7 +105,7 @@ var list = {
     }
     if(done) {
       this.uCheckedEntries.push(entry);
-      //animations.startTransmittingEntries([entry]);
+      animations.startTransmittingEntries([entry], "sli");
       this.transmitCheckedEntries();
     }
   },
@@ -134,7 +134,7 @@ var list = {
     }
     if(done) {
       this.uUncheckedEntries.push(entry);
-      //animations.startTransmittingEntries([entry]);
+      animations.startTransmittingEntries([entry], "sli");
       this.transmitUncheckedEntries();
     }
   },
@@ -307,6 +307,7 @@ var list = {
     //successful = confirm("Simulate transmission of newly checked entries to the server.\nSuccess?");
     //... -->
     for (i in tempCheckedEntries) {
+      alert("sending id: " + tempCheckedEntries[i].id);
       ids.push(tempCheckedEntries[i].id);
     }
     var dataString = $.toJSON(ids);
@@ -404,8 +405,11 @@ var animations = {
     //Need an identification here that the transmitting is running...
     for (i in entries) {
       var uiId = '#' + list + entries[i].id;
+      if(list == "sli") {
+        alert("foo");
+        $(uiId).data-icon="minus";
+      }
       var newUiEl = '<li data-icon="delete" id="' + uiId + '"><a>' + entries[i].name + '</a></li>';
-      $('#shoppingListView').listview('refresh');
     }
   },
 
