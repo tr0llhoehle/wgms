@@ -213,24 +213,27 @@ var list = {
     $.post('../InitialRequest', {data: dataString}, function(res){
     	var jdata = $.parseJSON(res);
     	for(var i=0; i<jdata.length; i++) {
-    		alert("initial ID"+jdata[i].id[0]);
+    		console.log("initial ID"+jdata[i].id[0]);
     		if(jdata[i].state == 0) {
     			list.addedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="troll-blank" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="troll-blank" id="'+'#sli' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var neweUiEl = '<li data-icon="troll-blank" id="'+'#eli' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').prepend(newUiEl)
-    			$('#editListView').prepend(newUiEl)
+    			$('#editListView').prepend(neweUiEl)
     		}
     		if(jdata[i].state == 1) {
     			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="check" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="troll-blank" id="'+'#sli' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var neweUiEl = '<li data-icon="troll-blank" id="'+'#eli' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').append(newUiEl)
-    			$('#editListView').append(newUiEl)
+    			$('#editListView').append(neweUiEl)
     		}
     		if(jdata[i].state == 2) {
     			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="troll-blank" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="troll-blank" id="'+'#sli' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var neweUiEl = '<li data-icon="troll-blank" id="'+'#eli' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').prepend(newUiEl)
-    			$('#editListView').prepend(newUiEl)
+    			$('#editListView').prepend(neweUiEl)
     		}
     		if(jdata[i].state == 3) {
     			list.deletedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
