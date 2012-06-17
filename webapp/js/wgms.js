@@ -274,13 +274,13 @@ var list = {
     var dataString = $.toJSON(names);
     $.post('../AddEntries', {data: dataString}, function(res){
     	successful = true;
-      clearTimeout(this.addEntriesTimer);
-      this.addEntriesTimer = 0;
+      clearTimeout(list.addEntriesTimer);
+      list.addEntriesTimer = 0;
       var serverIds = $.parseJSON(res); //TODO: DOES IT WORK? O_O
       for(var i = 0; i < tempAddedEntries.length; ++i) {
-        this.uncheckedEntries.push(new ListEntry(serverIds[i], tempAddedEntries[i].name));
+        list.uncheckedEntries.push(new ListEntry(serverIds[i], tempAddedEntries[i].name));
       }
-      this.addedEntries.splice(0, tempAddedEntries.length);
+      list.addedEntries.splice(0, tempAddedEntries.length);
     });
     if(!successful) {
       this.addEntriesTimer = setTimeout(function(){list.transmitAddedEntries()}, retryInterval);
