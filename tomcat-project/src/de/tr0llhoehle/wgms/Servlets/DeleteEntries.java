@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import de.tr0llhoehle.wgms.ClientConnection;
 import de.tr0llhoehle.wgms.structs.LocationList;
 
 /**
  * Servlet implementation class deleteEntries
  */
-@WebServlet("/deleteEntries")
+@WebServlet("/DeleteEntries")
 public class DeleteEntries extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -41,7 +44,19 @@ public class DeleteEntries extends HttpServlet {
 		if(!session.isNew()) {
 			ClientConnection client = (ClientConnection) session.getAttribute("clientInfo");
 			if (client != null) {
-				
+				String data = request.getParameter("data");
+				try {
+					
+					data = data.substring(1, data.length()-1);
+					
+					data = data.replaceAll("\"", "");
+					data = data.replace("\\", "");
+					JSONArray jsonArray = new JSONArray(data);
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				response.sendRedirect(LocationList.LOGINPAGE);
 			}
