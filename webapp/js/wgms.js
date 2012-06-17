@@ -157,7 +157,7 @@ var list = {
     				}
     			}    			
     			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="check" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="check" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').append(newUiEl)
     			$('#editListView').append(newUiEl)		
     		}
@@ -171,7 +171,7 @@ var list = {
     				}
     			}    			
     			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="troll-blank" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="troll-blank" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').append(newUiEl)
     			$('#editListView').append(newUiEl)	
     		}
@@ -206,19 +206,19 @@ var list = {
     	for(var i=0; i<jdata.length; i++) {
     		if(jdata[i].state == 0) {
     			list.addedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="troll-blank" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="troll-blank" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').prepend(newUiEl)
     			$('#editListView').prepend(newUiEl)
     		}
     		if(jdata[i].state == 1) {
     			list.checkedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="check" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="check" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').append(newUiEl)
     			$('#editListView').append(newUiEl)
     		}
     		if(jdata[i].state == 2) {
     			list.uncheckedEntries.push(new ListEntry(jdata[i].id[0], jdata[i].name[0]));
-    			var newUiEl = '<li data-icon="troll-blank" id="' + uiId + '"><a>' + jdata[i].name[0] + '</a></li>';
+    			var newUiEl = '<li data-icon="troll-blank" id="' + jdata[i].id[0] + '"><a>' + jdata[i].name[0] + '</a></li>';
     			$('#shoppingListView').prepend(newUiEl)
     			$('#editListView').prepend(newUiEl)
     		}
@@ -468,10 +468,11 @@ function initialiseListView() {
 }
 
 $(window).load(function(){
-  //list.addEntry("le cake");
-  //list.addEntry("it is a lie");
-  //list.addEntry("FLAUSCHFLAUSCH");
-  //list.addEntry("Flawwwwwwssssscchhzzz");
+  list.addEntry("le cake");
+  list.addEntry("it is a lie");
+  list.addEntry("FLAUSCHFLAUSCH");
+  list.addEntry("Flawwwwwwssssscchhzzz");
+  list.initialRequest();
 	//edit
 	var editparent = document.getElementById('editcontent');
     editListView = document.createElement('ul');
@@ -489,7 +490,6 @@ $(window).load(function(){
     //populateListView(listview,'troll-blank');
     
     initialiseListView();
-    list.initialRequest();
 
     $('shoppingListView').listview();
     $('shoppingListView').listview('refresh');
@@ -565,7 +565,7 @@ $(function() {
     // validate and process form here  
     var pname = $("input#name").val();  
     var pw = $("input#password").val();  
-    $.post("../ShoppingListServlet", { name: pname, password:pw },
+    $.post("../Login", { name: pname, password:pw },
     function(data) {
      	alert("Data Loaded: " + data);
    	});
