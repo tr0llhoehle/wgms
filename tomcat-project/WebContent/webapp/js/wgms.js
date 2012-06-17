@@ -406,8 +406,8 @@ var animations = {
     for (i in entries) {
       var uiId = '#' + list + entries[i].id;
       if(list == "sli") {
-        alert("foo");
-        $(uiId).data-icon="minus";
+        //alert("foo");
+        //$(uiId).data-icon="minus"; evil!
       }
       var newUiEl = '<li data-icon="delete" id="' + uiId + '"><a>' + entries[i].name + '</a></li>';
     }
