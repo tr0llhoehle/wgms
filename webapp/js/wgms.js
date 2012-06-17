@@ -133,8 +133,8 @@ var list = {
   },
   
   doneShopping: function(sum) {
-    
-  }
+    this.transmitDoneShopping(sum);    
+  },
 
   diffPoll: function() {
     //TODO: le magic
