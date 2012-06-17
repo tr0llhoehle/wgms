@@ -59,3 +59,4 @@ Session.vim
 # Bennifoo
 /tomcat-project/src/test/*
 .*~
+/build
