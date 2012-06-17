@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import de.tr0llhoehle.wgms.structs.TempPurchase;
 import de.tr0llhoehle.wgms.structs.TempShoppingList;
 import de.tr0llhoehle.wgms.structs.TempShoppingListItem;
 
@@ -86,7 +87,7 @@ public class DbmsConnector {
 				email = result.getString("email");
 			}
 
-			getEmail.close();
+			// getEmail.close();
 			return email;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -111,7 +112,7 @@ public class DbmsConnector {
 				password = result.getString("password");
 			}
 
-			getPwd.close();
+			// getPwd.close();
 			return password;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -135,7 +136,7 @@ public class DbmsConnector {
 					.prepareStatement("UPDATE items SET checked = 1 WHERE item_id = ?");
 			checkItem.setString(1, itemId.trim());
 			checkItem.executeUpdate();
-			checkItem.close();
+			// checkItem.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -159,7 +160,7 @@ public class DbmsConnector {
 					.prepareStatement("UPDATE items SET checked = 0 WHERE item_id = ?");
 			checkItem.setString(1, itemId.trim());
 			checkItem.executeUpdate();
-			checkItem.close();
+			// checkItem.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -169,10 +170,11 @@ public class DbmsConnector {
 
 	}
 
-	public synchronized void insertItem(String description,
-			int shoppingListId, String userName) {
+	public synchronized void insertItem(String description, int shoppingListId,
+			String userName) {
 		this.insertItem(description, String.valueOf(shoppingListId), userName);
 	}
+
 	public synchronized void insertItem(String description,
 			String shoppingListId, String userName) {
 		if (shoppingListId == null || shoppingListId.trim().equals("")
@@ -194,6 +196,38 @@ public class DbmsConnector {
 			e.printStackTrace();
 		}
 
+	}
+
+	public synchronized ArrayList<TempPurchase> getUserPurchases(String userName) {
+
+		if (userName == null || userName.trim().equals("") || !connected) {
+			return null;
+		}
+
+		ArrayList<TempPurchase> lists = new ArrayList<TempPurchase>();
+
+		try {
+			PreparedStatement getList = c
+					.prepareStatement("SELECT purchase_id, value, purchase_date FROM purchases WHERE user_id = (SELECT user_id FROM users WHERE username =?)");
+			getList.setString(1, userName);
+			getList.executeQuery();
+			ResultSet result = getList.executeQuery();
+			// ResultSetMetaData meta = result.getMetaData();
+			// if (meta == null) {
+			// return null;
+			// }
+			while (result.next()) {
+
+				lists.add(new TempPurchase(result.getInt("purchase_id"), result
+						.getBigDecimal("value"), result
+						.getTimestamp("purchase_date")));
+			}
+			return lists;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public synchronized ArrayList<TempShoppingList> getUserLists(String userName) {
@@ -247,7 +281,7 @@ public class DbmsConnector {
 				isChecked = result.getBoolean("checked");
 			}
 
-			getChecked.close();
+			// getChecked.close();
 			return isChecked;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -256,6 +290,44 @@ public class DbmsConnector {
 		}
 		return isChecked;
 
+	}
+
+	public synchronized ArrayList<TempShoppingListItem> getPurchaseItems(
+			int listId) {
+		String id = String.valueOf(listId);
+		return this.getPurchaseItems(id);
+	}
+
+	public synchronized ArrayList<TempShoppingListItem> getPurchaseItems(
+			String listId) {
+
+		if (listId == null || listId.trim().equals("") || !connected) {
+			return null;
+		}
+
+		ArrayList<TempShoppingListItem> items = new ArrayList<TempShoppingListItem>();
+
+		try {
+			PreparedStatement getList = c
+					.prepareStatement("SELECT item_id, description FROM items WHERE purchase_id = ?");
+			getList.setString(1, listId.trim());
+			getList.executeQuery();
+			ResultSet result = getList.executeQuery();
+			// ResultSetMetaData meta = result.getMetaData();
+			// if (meta == null) {
+			// return null;
+			// }
+			while (result.next()) {
+
+				items.add(new TempShoppingListItem(result.getInt("item_id"),
+						result.getString("description")));
+			}
+			return items;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public synchronized ArrayList<TempShoppingListItem> getListsItems(int listId) {
