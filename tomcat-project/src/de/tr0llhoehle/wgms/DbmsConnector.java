@@ -20,11 +20,14 @@ public class DbmsConnector {
 
 	// database = wgms
 	private static final String CONNECTION = "jdbc:mysql://127.0.0.1/wgms";
-	// private static final String USER = "troll";
-	// private static final String PASS = "troll";
+	 private static final String USER = "troll";
+	 private static final String PASS = "troll";
 
-	private static final String USER = "root";
-	private static final String PASS = "";
+//	private static final String USER = "root";
+//	private static final String PASS = "";
+
+//	private static final String USER = "wgms";
+//	private static final String PASS = "heZ7ayGBYsFKxsVj";
 
 	private static boolean connected = false;
 	private Connection c = null;
@@ -386,6 +389,7 @@ public class DbmsConnector {
 		}
 
 		try {
+			c.setAutoCommit(false);
 			PreparedStatement createPurchase = c
 					.prepareStatement(
 							"INSERT INTO purchases (value, user_id)VALUES (? ,(SELECT user_id FROM users WHERE username = ?))",
@@ -413,9 +417,12 @@ public class DbmsConnector {
 				updateItems.setString(2, shoppingListId.trim());
 
 				updateItems.executeUpdate();
+				c.commit();
+				c.setAutoCommit(true);
 
 			} else {
 				// something very wrong
+				c.rollback();
 				return;
 			}
 
@@ -424,6 +431,9 @@ public class DbmsConnector {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+//			c.rollback();
+//			c.setAutoCommit(true);
+			
 
 		}
 
